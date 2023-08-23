@@ -5,7 +5,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h1 align="center">CDK Cost Limit</h1>
+  <h1 align="center">Cost Limit for AWS</h1>
 
   <p align="center">
     A Collection of CDK Constructs to Deploy Cost-Aware Self-Limiting Resources
@@ -23,7 +23,7 @@
 
 ### What?
 
-This package enables development teams to set spending limits on their AWS resources. While existing AWS cost-related services can only send alerts, this library automatically disables resources, using non-destructive operations, when user-set budget is reached.
+This package lets you set spending limits on AWS. Existing AWS cost-related services only send alerts: this library automatically disables resources, using non-destructive operations, when your budget is reached.
 
 ### Why?
 
@@ -35,7 +35,7 @@ Every month, lots of companies and individual contributors find their cloud bill
 
 This library includes an [Aspect](https://docs.aws.amazon.com/cdk/v2/guide/aspects.html) and a collection of [AWS CDK Level-2 Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_lib). They deploy additional resources on your AWS account in order to:
 - compute in real-time your current spending amounts
-- update resources when they should not incur additional costs (because budget has been reached)
+- update resources when they should not incur additional costs because budget has been reached (e.g. Lambda Functions reserved concurrency is set to 0 to prevent further invokes)
 
 All additional resources provisioned by this library are detailed in the [catalog documentation](./docs/constructs.md#per-service-level-2-constructs).
 
