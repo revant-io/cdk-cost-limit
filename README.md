@@ -31,40 +31,17 @@ CDK Cost Limit is built upon the AWS CDK, so you need to install Node.js (>= 14.
 npm install -s @revant-io/cdk-cost-limit
 ```
 
+## Supported services/resources
+
+- ✅ `AWS::Lambda::Function`
+- ⏳ `AWS::EC2::Instance`
+
 ## Constructs
 
-### Per services
+You can find the complete list of supported services and exported constructs in the [catalog documentation](./docs/constructs.md)
 
-This collection of CDK constructs covers multiple AWS services and resource types.
+## Why such construct library ?
 
-[AWS Lambda](./docs/lambda.md)
+Every month, lots of companies and individual contributors find their cloud bill skyrocketing due to a mistake in their application code, a cybersecurity breach, or a misunderstanding of the costs associated with subscribed services. This can compromise your financial stability and even lead to the demise of your business.
 
-### General Cost Limit Aspect
-
-If you'd like to use a more generic budget declaration for your resources, you can use the `CostLimit` [Aspect](https://docs.aws.amazon.com/cdk/v2/guide/aspects.html).
-
-```ts
-import { Aspects } from 'aws-cdk-lib';
-import { CostLimit } from "@revant-io/cdk-cost-limit";
-
-declare const fn: lambda.Function;
-declare const instance: ec2.Instance;
-
-// Set a monthly budget of $1,00 for this specific Lambda function `fn`
-Aspects.of(fn).add(new CostLimit({ budget: 100 }));
-
-// Set a monthly budget of $20,00 for this specific EC2 instance `instance`
-Aspects.of(instance).add(new CostLimit({ budget: 2000 }));
-```
-
-You can use this Aspect to set the same monthly budget limit on all supported resources of your stack.
-
-```ts
-import { Aspects } from 'aws-cdk-lib';
-import { CostLimit } from "@revant-io/cdk-cost-limit";
-
-declare const stack: cdk.Stack;
-
-// Set a monthly budget of $1,00 for each supported resources within `stack`
-Aspects.of(stack).add(new CostLimit({ budget: 100 }));
-```
+To prevent this, Revant aims at setting hard-limit budgets on your cloud services. This is especially useful for development environments, as the bill is somehow more important than the application's availability.
