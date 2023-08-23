@@ -4,3 +4,6 @@
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+# Layer build assets
+lib/revant-extension

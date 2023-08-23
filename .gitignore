@@ -6,3 +6,6 @@ node_modules
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+# Layer built assets
+lib/layer/extensions/revant
