@@ -1,12 +1,12 @@
 # Construct catalog
 
-Intro todo
+This library includes an [Aspect](https://docs.aws.amazon.com/cdk/v2/guide/aspects.html) and a collection of [AWS CDK Level-2 Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html#constructs_lib) with hard-limit monthly budget capabilities.
 
 ## CostLimit Aspect
 
-Using the exported `CostLimit` Aspect is the recommended way to enable cost-limit capabilities on your resources. If you'd however like not to use an Aspect, you can refer to the [per service documentation](#per-service)
+Using the exported `CostLimit` Aspect is the recommended way to enable cost-limit capabilities on your resources. If you'd however like not to use an Aspect, you can refer to the [per service documentation](#per-service-level-2-constructs)
 
-If you'd like to use a more generic budget declaration for your resources, you can use the `CostLimit` [Aspect](https://docs.aws.amazon.com/cdk/v2/guide/aspects.html).
+You can use the Aspect on any supported resources to enable budget limits. 
 
 ```ts
 import { Aspects } from 'aws-cdk-lib';
@@ -34,7 +34,13 @@ declare const stack: cdk.Stack;
 Aspects.of(stack).add(new CostLimit({ budget: 100 }));
 ```
 
-## Per service constructs
+## How it works?
+
+This library provision additional resources, splitted in 2 categories:
+- common resources (like a DynamoDB table to store current spending amounts) that are used by all `CostLimit` Aspect usages
+- dedicated resources, depending on the type of resource protected by a budget limit.
+
+## Per-Service Level-2 Constructs
 
 This collection of CDK constructs covers multiple AWS services and resource types.
 
