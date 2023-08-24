@@ -27,9 +27,7 @@ This package lets you set spending limits on AWS. While existing AWS solutions m
 
 ### Why?
 
-Every month, companies and individual contributors face surging cloud bills due to mistakes in their application code, misunderstandings of services pricing model, or even malicious activities. This library shields you from such events.
-
-> 📖 Have a look at those [AWS billing horror stories aggregated by Victor Grenu](https://unusd.cloud/blog/post-5/)!
+Every month, companies and individual contributors face surging cloud bills[^1] due to mistakes in their application code, misunderstandings of services pricing model, or even malicious activities. This library shields you from such events.
 
 ### How?
 
@@ -106,3 +104,6 @@ While `CostLimit` aspect can be applied on any node type, budget capabilities ar
     - **📆 Automatically** - At the end of each month, resources that have been disabled are automatically re-enabled
 
     - **⚒️ Manually** - You might want to increase budget and keep on using disabled resources in the current month. In order to do so, you need to follow  [each service documentation](./docs/constructs.md#per-service-level-2-constructs) procedure to identify and manually re-enable affected resources
+
+
+[^1]: 📖 Have a look at those [AWS billing horror stories aggregated by Victor Grenu](https://unusd.cloud/blog/post-5/)!
