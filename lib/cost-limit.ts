@@ -21,12 +21,14 @@ export class CostLimit implements IAspect {
     this.budget = budget;
   }
   public visit(node: IConstruct): void {
-    const nodeWithCostLimitAspect = Aspects.of(node).all.find(aspect => aspect === this) as this | undefined;
+    const nodeWithCostLimitAspect = Aspects.of(node).all.find(
+      (aspect) => aspect === this
+    ) as this | undefined;
     if (nodeWithCostLimitAspect !== undefined) {
       this.path = node.node.path;
     }
 
-    if (node instanceof CoreFunction) {
+    if (node instanceof CoreFunction && !(node instanceof Function)) {
       Function.limitBudget(node, this.budget, this.path);
     }
   }

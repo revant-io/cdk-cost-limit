@@ -43,6 +43,7 @@ class StackUnderTest extends Stack {
     });
 
     Aspects.of(aspectFunction).add(new CostLimit({ budget: 200 }));
+    Aspects.of(this).add(new CostLimit({ budget: 1000 }));
 
     this.functionName = nodejsFunction.functionName;
   }
