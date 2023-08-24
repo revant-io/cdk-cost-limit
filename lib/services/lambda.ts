@@ -1,8 +1,8 @@
 import { Construct } from "constructs";
 import { Effect, IRole, Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import {
-    Function as CoreFunction,
-    FunctionProps as CoreFunctionProps,
+  Function as CoreFunction,
+  FunctionProps as CoreFunctionProps,
 } from "aws-cdk-lib/aws-lambda";
 
 import { CostLimitProps } from "../cost-limit";
@@ -11,11 +11,16 @@ import { CoreRessources } from "../core-resources";
 export type FunctionProps = CostLimitProps & CoreFunctionProps;
 
 // Env variables names used internally - duplicated in extension code, should be deduplicated
-const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME"
-const ENV_VARIABLE_REVANT_COST_LIMIT = "REVANT_COST_LIMIT"
+const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
+const ENV_VARIABLE_REVANT_COST_LIMIT = "REVANT_COST_LIMIT";
+const ENV_VARIABLE_REVANT_COST_LIMIT_PATH = "REVANT_COST_LIMIT_PATH";
 
 export class Function extends CoreFunction {
-  public static limitBudget(functionConstruct: CoreFunction, budget: number) {
+  public static limitBudget(
+    functionConstruct: CoreFunction,
+    budget: number,
+    path: string
+  ) {
     const { layer, dynamoDBTable } =
       CoreRessources.getInstance(functionConstruct);
     dynamoDBTable.grant(functionConstruct, "dynamodb:UpdateItem");
@@ -24,6 +29,10 @@ export class Function extends CoreFunction {
     functionConstruct.addEnvironment(
       ENV_VARIABLE_REVANT_COST_LIMIT,
       budget.toString()
+    );
+    functionConstruct.addEnvironment(
+      ENV_VARIABLE_REVANT_COST_LIMIT_PATH,
+      path,
     );
     functionConstruct.addEnvironment(
       ENV_VARIABLE_REVANT_COST_TABLE_NAME,
@@ -52,6 +61,6 @@ export class Function extends CoreFunction {
       return;
     }
 
-    Function.limitBudget(this, budget);
+    Function.limitBudget(this, budget, this.node.path);
   }
 }

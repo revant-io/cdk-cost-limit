@@ -7,8 +7,9 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 
 // Env variables names used internally - duplicated in cdk code, should be deduplicated
-const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME"
-const ENV_VARIABLE_REVANT_COST_LIMIT = "REVANT_COST_LIMIT"
+const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
+const ENV_VARIABLE_REVANT_COST_LIMIT = "REVANT_COST_LIMIT";
+const ENV_VARIABLE_REVANT_COST_LIMIT_PATH = "REVANT_COST_LIMIT_PATH";
 
 const lambdaClient = new LambdaClient({});
 const dynamoDBClient = new DynamoDBClient({});
@@ -187,7 +188,6 @@ const processTelemetryEvents = async (
       { totalMemoryDurationMsMB: 0, invocationCount: 0 }
     );
   const updatedCumulativeLambdaMetrics = await updateCumulativeLambdaMetrics(
-    functionName,
     newInvocationsCumulativeLambdaMetrics
   );
   console.log(
@@ -244,15 +244,15 @@ interface CumulativeLambdaMetrics {
   invocationCount: number;
 }
 
-const updateCumulativeLambdaMetrics = async (
-  functionName: string,
-  { totalMemoryDurationMsMB, invocationCount }: CumulativeLambdaMetrics
-): Promise<CumulativeLambdaMetrics> => {
+const updateCumulativeLambdaMetrics = async ({
+  totalMemoryDurationMsMB,
+  invocationCount,
+}: CumulativeLambdaMetrics): Promise<CumulativeLambdaMetrics> => {
   const { Attributes } = await dynamoDBDocumentClient.send(
     new UpdateCommand({
       TableName: process.env[ENV_VARIABLE_REVANT_COST_TABLE_NAME],
       ReturnValues: "UPDATED_NEW",
-      Key: { PK: functionName },
+      Key: { PK: process.env[ENV_VARIABLE_REVANT_COST_LIMIT_PATH] },
       UpdateExpression: `ADD #C :count, #MD :memory`,
       ExpressionAttributeNames: {
         "#C": DYNAMODB_INVOCATION_COUNT_ATTRIBUTE_NAME,
