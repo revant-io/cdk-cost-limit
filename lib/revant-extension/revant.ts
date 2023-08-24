@@ -253,6 +253,7 @@ const updateCumulativeLambdaMetrics = async ({
     new UpdateCommand({
       TableName: process.env[ENV_VARIABLE_REVANT_COST_TABLE_NAME],
       ReturnValues: "UPDATED_NEW",
+      // Max key length for DynamoDB is 2048 bytes. This strategy might exceed max length. Worth using node.address instead?
       Key: { PK: [prefix, process.env[ENV_VARIABLE_REVANT_COST_LIMIT_PATH]].join('#') },
       UpdateExpression: `ADD #C :count, #MD :memory`,
       ExpressionAttributeNames: {

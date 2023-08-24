@@ -36,3 +36,27 @@ By default, if budget is not specified, an unlimited budget (Function normal beh
 ## How it works
 
 Todo
+
+## Manually restore
+
+In order to reset `Function` that have been disabled by a budget, you need to remove the reserved concurrency.
+
+```sh
+aws lambda delete-function-concurrency --function-name <functionName>
+```
+
+If your function already had a reserved concurrency as specified in your CDK code base like so
+
+```ts
+new Function(scope, "MyFunction", {
+    //...
+    reservedConcurrentExecutions: 23, // your initial reserved concurrency
+    //...
+})
+```
+
+you can reset it back to the initial value using the corresponding `update-function-concurrency` API
+
+```sh
+aws lambda put-function-concurrency --function-name <functionName> --reserved-concurrent-executions <initialReservedConcurrencyValue>
+```
