@@ -41,6 +41,7 @@ This library includes an [Aspect](https://docs.aws.amazon.com/cdk/v2/guide/aspec
 - **💰 Costs** - Tracking spending and halting resources incur additional costs
 - **🏎️ Performance** - Some implementations negatively impact performances under normal conditions
 
+> [!IMPORTANT]
 > 🧑‍💻 We're actively working on reducing cost and perf impacts of this library! We'll [keep you posted](./docs/tradeoffs.md) as we minimize and eventually remove complitely those tradeoffs
 
 ## Getting started
