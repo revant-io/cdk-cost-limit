@@ -6,7 +6,7 @@ This library includes an [Aspect](https://docs.aws.amazon.com/cdk/v2/guide/aspec
 
 Using the exported `CostLimit` Aspect is the recommended way to enable cost-limit capabilities on your resources. If you'd however like not to use an Aspect, you can refer to the [per service documentation](#per-service-level-2-constructs)
 
-You can use the Aspect on any supported resources to enable budget limits. 
+You can use the Aspect on any node to enable budget limits. 
 
 ```ts
 import { Aspects } from 'aws-cdk-lib';
