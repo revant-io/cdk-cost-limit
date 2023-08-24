@@ -248,11 +248,12 @@ const updateCumulativeLambdaMetrics = async ({
   totalMemoryDurationMsMB,
   invocationCount,
 }: CumulativeLambdaMetrics): Promise<CumulativeLambdaMetrics> => {
+  const prefix = new Date().toISOString().slice(0, 7);
   const { Attributes } = await dynamoDBDocumentClient.send(
     new UpdateCommand({
       TableName: process.env[ENV_VARIABLE_REVANT_COST_TABLE_NAME],
       ReturnValues: "UPDATED_NEW",
-      Key: { PK: process.env[ENV_VARIABLE_REVANT_COST_LIMIT_PATH] },
+      Key: { PK: [prefix, process.env[ENV_VARIABLE_REVANT_COST_LIMIT_PATH]].join('#') },
       UpdateExpression: `ADD #C :count, #MD :memory`,
       ExpressionAttributeNames: {
         "#C": DYNAMODB_INVOCATION_COUNT_ATTRIBUTE_NAME,
