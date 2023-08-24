@@ -58,7 +58,7 @@ npm install -s @revant-io/cdk-cost-limit
 
 Using this library is as simple as importing the `CostLimit` Aspect and using it on any node to apply a budget on the node and all of its children.
 
-```ts
+```typescript
 import { App, Aspects, Stack } from "aws-cdk-lib";
 import { Function } from "aws-cdk-lib/aws-lambda";
 
@@ -82,6 +82,7 @@ Aspects.of(lambdaFunction).add(new CostLimit({ budget: 500 }));
 ```
 
 Once a budget is hit, all resources within the construct on which this budget has been applied are disabled to prevent further cost increase. In the above example:
+
 - once `MyFirstLambda` incurred costs reach $2,00, the lambda function is disabled
 - once `MySecondLambda` incurred costs reach $5,00, the lambda function is disabled
 - once `MyStack` incurred costs reach $10,00 - in this specific case, the addition of incurred costs from `MyEC2Instance`, `MyFirstLambda` and `MySecondLambda` - all resources within `MyStack` are disabled
@@ -101,9 +102,8 @@ While `CostLimit` aspect can be applied on any node type, budget capabilities ar
 
 - **🔄 Restore**
 
-    - **📆 Automatically** - At the end of each month, resources that have been disabled are automatically re-enabled
+  - **📆 Automatically** - At the end of each month, resources that have been disabled are automatically re-enabled
 
-    - **⚒️ Manually** - You might want to increase budget and keep on using disabled resources in the current month. In order to do so, you need to follow  [each service documentation](./docs/constructs.md#per-service-level-2-constructs) procedure to identify and manually re-enable affected resources
-
+  - **⚒️ Manually** - You might want to increase budget and keep on using disabled resources in the current month. In order to do so, you need to follow [each service documentation](./docs/constructs.md#per-service-level-2-constructs) procedure to identify and manually re-enable affected resources
 
 [^1]: 📖 Have a look at those [AWS billing horror stories aggregated by Victor Grenu](https://unusd.cloud/blog/post-5/)!

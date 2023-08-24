@@ -6,10 +6,10 @@ This library includes an [Aspect](https://docs.aws.amazon.com/cdk/v2/guide/aspec
 
 Using the exported `CostLimit` Aspect is the recommended way to enable cost-limit capabilities on your resources. If you'd however like not to use an Aspect, you can refer to the [per service documentation](#per-service-level-2-constructs)
 
-You can use the Aspect on any node to enable budget limits. 
+You can use the Aspect on any node to enable budget limits.
 
-```ts
-import { Aspects } from 'aws-cdk-lib';
+```typescript
+import { Aspects } from "aws-cdk-lib";
 import { CostLimit } from "@revant-io/cdk-cost-limit";
 
 declare const fn: lambda.Function;
@@ -24,8 +24,8 @@ Aspects.of(instance).add(new CostLimit({ budget: 2000 }));
 
 You can use this Aspect to set the same monthly budget limit on all supported resources of your stack.
 
-```ts
-import { Aspects } from 'aws-cdk-lib';
+```typescript
+import { Aspects } from "aws-cdk-lib";
 import { CostLimit } from "@revant-io/cdk-cost-limit";
 
 declare const stack: cdk.Stack;
@@ -37,6 +37,7 @@ Aspects.of(stack).add(new CostLimit({ budget: 100 }));
 ## How it works?
 
 This library provision additional resources, splitted in 2 categories:
+
 - common resources (like a DynamoDB table to store current spending amounts) that are used by all `CostLimit` Aspect usages
 - dedicated resources, depending on the type of resource protected by a budget limit.
 
