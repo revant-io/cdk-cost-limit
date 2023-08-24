@@ -6,7 +6,8 @@ import { Stack } from "aws-cdk-lib";
 
 export class CoreRessources extends Construct {
     public dynamoDBTable: Table;
-    public layer: LayerVersion;
+    public layerX86: LayerVersion;
+    public layerARM: LayerVersion;
     static instance: CoreRessources;
   
     private constructor(scope: Construct) {
@@ -20,9 +21,14 @@ export class CoreRessources extends Construct {
         billingMode: BillingMode.PAY_PER_REQUEST,
       });
   
-      this.layer = new LayerVersion(this, "LambdaExtensionLayer", {
-        code: Code.fromAsset(path.join(__dirname, "./layer")),
-        compatibleArchitectures: [Architecture.X86_64, Architecture.ARM_64],
+      this.layerX86 = new LayerVersion(this, "LambdaExtensionLayerX86", {
+        code: Code.fromAsset(path.join(__dirname, "./layerX86")),
+        compatibleArchitectures: [Architecture.X86_64],
+      });
+  
+      this.layerARM = new LayerVersion(this, "LambdaExtensionLayerARM", {
+        code: Code.fromAsset(path.join(__dirname, "./layerARM")),
+        compatibleArchitectures: [Architecture.X86_64],
       });
     }
   

@@ -8,4 +8,4 @@ node_modules
 cdk.out
 
 # Layer built assets
-lib/layer/extensions/revant
+lib/layer*

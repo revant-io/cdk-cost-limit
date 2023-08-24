@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 import { Effect, IRole, Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import {
+  Architecture,
   Function as CoreFunction,
   FunctionProps as CoreFunctionProps,
 } from "aws-cdk-lib/aws-lambda";
@@ -21,19 +22,23 @@ export class Function extends CoreFunction {
     budget: number,
     path: string
   ) {
-    const { layer, dynamoDBTable } =
+    const { layerARM, layerX86, dynamoDBTable } =
       CoreRessources.getInstance(functionConstruct);
     dynamoDBTable.grant(functionConstruct, "dynamodb:UpdateItem");
 
-    functionConstruct.addLayers(layer);
+    if (functionConstruct.architecture === Architecture.ARM_64) {
+      functionConstruct.addLayers(layerARM);
+    }
+
+    if (functionConstruct.architecture === Architecture.X86_64) {
+      functionConstruct.addLayers(layerX86);
+    }
+
     functionConstruct.addEnvironment(
       ENV_VARIABLE_REVANT_COST_LIMIT,
       budget.toString()
     );
-    functionConstruct.addEnvironment(
-      ENV_VARIABLE_REVANT_COST_LIMIT_PATH,
-      path,
-    );
+    functionConstruct.addEnvironment(ENV_VARIABLE_REVANT_COST_LIMIT_PATH, path);
     functionConstruct.addEnvironment(
       ENV_VARIABLE_REVANT_COST_TABLE_NAME,
       dynamoDBTable.tableName
