@@ -22,7 +22,7 @@ export class Function extends CoreFunction {
     budget: number,
     path: string
   ) {
-    const { layerARM, layerX86, dynamoDBTable } =
+    const { layerARM, layerX86, dynamoDBTable, policy } =
       CoreRessources.getInstance(functionConstruct);
     dynamoDBTable.grant(functionConstruct, "dynamodb:UpdateItem");
 
@@ -34,23 +34,17 @@ export class Function extends CoreFunction {
       functionConstruct.addLayers(layerX86);
     }
 
+    // Cannot set this as a single env variable since multiple cost limits can affect the same lambda at one time
     functionConstruct.addEnvironment(
       ENV_VARIABLE_REVANT_COST_LIMIT,
       budget.toString()
     );
+    // Cannot set this as a single env variable since multiple cost limits can affect the same lambda at one time
     functionConstruct.addEnvironment(ENV_VARIABLE_REVANT_COST_LIMIT_PATH, path);
     functionConstruct.addEnvironment(
       ENV_VARIABLE_REVANT_COST_TABLE_NAME,
       dynamoDBTable.tableName
     );
-    const policyStatement = new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["lambda:PutFunctionConcurrency"],
-      resources: [functionConstruct.functionArn],
-    });
-    const policy = new Policy(functionConstruct, "SelfDisablePolicy", {
-      statements: [policyStatement],
-    });
     policy.attachToRole(functionConstruct.role as IRole);
   }
 
