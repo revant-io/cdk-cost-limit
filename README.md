@@ -59,6 +59,15 @@ npm install -s @revant-io/cdk-cost-limit
 Using this library is as simple as importing the `CostLimit` Aspect and using it on any node to apply a budget on the node and all of its children.
 
 ```typescript
+import { Aspects } from "aws-cdk-lib";
+import { CostLimit } from "@revant-io/cdk-cost-limit";
+
+Aspects.of(anyConstruct).add(new CostLimit({ budget: 1000 }))
+```
+
+Using an aspect allow setting a budget on a specific construct of the application, or even a whole stack. Multiple budgets can be set up at once.
+
+```typescript
 import { App, Aspects, Stack } from "aws-cdk-lib";
 import { Function } from "aws-cdk-lib/aws-lambda";
 
