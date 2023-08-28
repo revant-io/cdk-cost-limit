@@ -75,10 +75,10 @@ const mySecondLambdaFunction = new Function(stack, "MySecondLambda");
 Aspects.of(stack).add(new CostLimit({ budget: 1000 }));
 
 // Sets another budget on MyFirstLambda of $2,00
-Aspects.of(lambdaFunction).add(new CostLimit({ budget: 200 }));
+Aspects.of(myFirstLambdaFunction).add(new CostLimit({ budget: 200 }));
 
 // Sets a final budget on MySecondLambda of $5,00
-Aspects.of(lambdaFunction).add(new CostLimit({ budget: 500 }));
+Aspects.of(mySecondLambdaFunction).add(new CostLimit({ budget: 500 }));
 ```
 
 Once a budget is hit, all resources within the construct on which this budget has been applied are disabled to prevent further cost increase. In the above example:
