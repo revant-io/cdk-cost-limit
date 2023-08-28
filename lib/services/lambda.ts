@@ -26,11 +26,17 @@ export class Function extends CoreFunction {
       CoreRessources.getInstance(functionConstruct);
     dynamoDBTable.grant(functionConstruct, "dynamodb:UpdateItem");
 
-    if (functionConstruct.architecture === Architecture.ARM_64) {
+    if (
+      functionConstruct.architecture === Architecture.ARM_64 &&
+      !functionConstruct._layers.includes(layerARM)
+    ) {
       functionConstruct.addLayers(layerARM);
     }
 
-    if (functionConstruct.architecture === Architecture.X86_64) {
+    if (
+      functionConstruct.architecture === Architecture.X86_64 &&
+      !functionConstruct._layers.includes(layerX86)
+    ) {
       functionConstruct.addLayers(layerX86);
     }
 
