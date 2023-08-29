@@ -69,6 +69,7 @@ Using an aspect allow setting a budget on a specific construct of the applicatio
 
 ```typescript
 import { App, Aspects, Stack } from "aws-cdk-lib";
+import { Instance } from "aws-cdk-lib/aws-ec2";
 import { Function } from "aws-cdk-lib/aws-lambda";
 
 import { CostLimit } from "@revant-io/cdk-cost-limit";
