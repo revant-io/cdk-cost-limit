@@ -39,13 +39,7 @@ export class Function extends CoreFunction {
       functionConstruct.addLayers(layerX86);
     }
 
-    // Cannot set this as a single env variable since multiple cost limits can affect the same lambda at one time
-    functionConstruct.addEnvironment(
-      ENV_VARIABLE_REVANT_COST_LIMIT,
-      budget.toString()
-    );
-    // Cannot set this as a single env variable since multiple cost limits can affect the same lambda at one time
-    functionConstruct.addEnvironment(ENV_VARIABLE_REVANT_COST_LIMIT_PATH, path);
+    functionConstruct.addEnvironment([ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX, address].join("_"), budget.toString())
     functionConstruct.addEnvironment(
       ENV_VARIABLE_REVANT_COST_TABLE_NAME,
       dynamoDBTable.tableName

@@ -8,8 +8,7 @@ import { DynamoDBDocumentClient, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 
 // Env variables names used internally - duplicated in cdk code, should be deduplicated
 const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
-const ENV_VARIABLE_REVANT_COST_LIMIT = "REVANT_COST_LIMIT";
-const ENV_VARIABLE_REVANT_COST_LIMIT_PATH = "REVANT_COST_LIMIT_PATH";
+const ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX = "REVANT_COST_LIMIT";
 
 const lambdaClient = new LambdaClient({});
 const dynamoDBClient = new DynamoDBClient({});
@@ -29,9 +28,7 @@ const LISTENER_PORT = 7654;
 
 // Extension specific variables
 const LAMBDA_EXTENSION_NAME = "revant";
-const DYNAMODB_INVOCATION_COUNT_ATTRIBUTE_NAME = "invocationCount";
-const DYNAMODB_CUMULATIVE_MEMORY_DURATION_ATTRIBUTE_NAME =
-  "totalMemoryDurationMsMB";
+const DYNAMODB_BUDGET_ATTRIBUTE_NAME = "budget";
 
 const registerExtension = async (): Promise<{
   extensionId: string;
@@ -187,14 +184,14 @@ const processTelemetryEvents = async (
       },
       { totalMemoryDurationMsMB: 0, invocationCount: 0 }
     );
-  const updatedCumulativeLambdaMetrics = await updateCumulativeLambdaMetrics(
+  const { budget: updatedBudget } = await updateCurrentBudget(
     newInvocationsCumulativeLambdaMetrics
   );
   console.log(
-    `[telementry-listener:${LAMBDA_EXTENSION_NAME}] Cumulative Lambda Metrics have been updated in DynamoDB`
+    `[telementry-listener:${LAMBDA_EXTENSION_NAME}] Budget has been updated in DynamoDB`
   );
 
-  if (isExceedingBudget(updatedCumulativeLambdaMetrics)) {
+  if (isExceedingBudget(updatedBudget)) {
     console.log(
       `[telementry-listener:${LAMBDA_EXTENSION_NAME}] Budget exceeded, disabling Lambda function by setting reserved concurrency to 0`
     );
@@ -244,29 +241,46 @@ interface CumulativeLambdaMetrics {
   invocationCount: number;
 }
 
-const updateCumulativeLambdaMetrics = async ({
+const INVOCATION_PER_TEN_MILLION_PRICE = 2;
+const DURATION_MEMORY_PER_BILLION_PRICE = 16667;
+const updateCurrentBudget = async ({
   totalMemoryDurationMsMB,
   invocationCount,
-}: CumulativeLambdaMetrics): Promise<CumulativeLambdaMetrics> => {
+}: CumulativeLambdaMetrics): Promise<{ budget: number }> => {
   const prefix = new Date().toISOString().slice(0, 7);
+  const budgets = Object.fromEntries(
+    Object.entries(process.env)
+      .filter(([key]) => key.startsWith(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX))
+      .map(([key, value]) => [
+        key.slice(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX.length + 1),
+        value,
+      ])
+  );
+  console.log(
+    `[telementry-listener:${LAMBDA_EXTENSION_NAME}] budgets: ${budgets}`
+  );
+  const address = Object.keys(budgets).pop();
+  const addedBudget =
+    (invocationCount / 10000000) * INVOCATION_PER_TEN_MILLION_PRICE +
+    (totalMemoryDurationMsMB / (1000000000 * 1000 * 1000)) *
+      DURATION_MEMORY_PER_BILLION_PRICE;
   const { Attributes } = await dynamoDBDocumentClient.send(
     new UpdateCommand({
       TableName: process.env[ENV_VARIABLE_REVANT_COST_TABLE_NAME],
       ReturnValues: "UPDATED_NEW",
-      // Max key length for DynamoDB is 2048 bytes. This strategy might exceed max length. Worth using node.address instead?
-      Key: { PK: [prefix, process.env[ENV_VARIABLE_REVANT_COST_LIMIT_PATH]].join('#') },
-      UpdateExpression: `ADD #C :count, #MD :memory`,
+      Key: {
+        PK: [prefix, address].join("#"),
+      },
+      UpdateExpression: `ADD #B :budget`,
       ExpressionAttributeNames: {
-        "#C": DYNAMODB_INVOCATION_COUNT_ATTRIBUTE_NAME,
-        "#MD": DYNAMODB_CUMULATIVE_MEMORY_DURATION_ATTRIBUTE_NAME,
+        "#B": DYNAMODB_BUDGET_ATTRIBUTE_NAME,
       },
       ExpressionAttributeValues: {
-        ":count": invocationCount,
-        ":memory": totalMemoryDurationMsMB,
+        ":budget": addedBudget,
       },
     })
   );
-  return Attributes as CumulativeLambdaMetrics;
+  return Attributes as { budget: number };
 };
 
 const subscribeTelemetry = async (extensionId: string, listenerUri: string) => {
@@ -315,19 +329,16 @@ const subscribeTelemetry = async (extensionId: string, listenerUri: string) => {
   }
 };
 
-const INVOCATION_PER_TEN_MILLION_PRICE = 2;
-const DURATION_MEMORY_PER_BILLION_PRICE = 16667;
-const isExceedingBudget = (
-  cumulativeLambdaMetrics: CumulativeLambdaMetrics
-) => {
-  return (
-    (cumulativeLambdaMetrics.invocationCount / 10000000) *
-      INVOCATION_PER_TEN_MILLION_PRICE +
-      (cumulativeLambdaMetrics.totalMemoryDurationMsMB /
-        (1000000000 * 1000 * 1000)) *
-        DURATION_MEMORY_PER_BILLION_PRICE >
-    Number(process.env[ENV_VARIABLE_REVANT_COST_LIMIT])
+const isExceedingBudget = (currentBudget: number) => {
+  const budgets = Object.fromEntries(
+    Object.entries(process.env)
+      .filter(([key]) => key.startsWith(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX))
+      .map(([key, value]) => [
+        key.slice(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX.length + 1),
+        value,
+      ])
   );
+  return currentBudget > Number(Object.values(budgets).pop());
 };
 
 const main = async () => {
