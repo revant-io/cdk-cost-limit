@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { Effect, IRole, Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { IRole } from "aws-cdk-lib/aws-iam";
 import {
   Architecture,
   Function as CoreFunction,
