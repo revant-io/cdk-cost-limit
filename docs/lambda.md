@@ -1,5 +1,8 @@
 # AWS Lambda
 
+> [!NOTE]
+> Max AWS Lambda spending rate: $1200 / hour / region
+
 ## Usage
 
 You can simply replace your `Function` native CDK import statement by this package exported `Function` construct.
