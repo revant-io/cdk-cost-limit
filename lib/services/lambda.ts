@@ -13,14 +13,13 @@ export type FunctionProps = CostLimitProps & CoreFunctionProps;
 
 // Env variables names used internally - duplicated in extension code, should be deduplicated
 const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
-const ENV_VARIABLE_REVANT_COST_LIMIT = "REVANT_COST_LIMIT";
-const ENV_VARIABLE_REVANT_COST_LIMIT_PATH = "REVANT_COST_LIMIT_PATH";
+const ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX = "REVANT_COST_LIMIT";
 
 export class Function extends CoreFunction {
   public static limitBudget(
     functionConstruct: CoreFunction,
     budget: number,
-    path: string
+    address: string
   ) {
     const { layerARM, layerX86, dynamoDBTable, policy } =
       CoreRessources.getInstance(functionConstruct);
@@ -66,6 +65,6 @@ export class Function extends CoreFunction {
       return;
     }
 
-    Function.limitBudget(this, budget, this.node.path);
+    Function.limitBudget(this, budget, this.node.addr);
   }
 }

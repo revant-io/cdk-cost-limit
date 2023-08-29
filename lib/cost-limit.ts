@@ -16,7 +16,7 @@ export type CostLimitProps = {
 
 export class CostLimit implements IAspect {
   private budget: number;
-  private path: string;
+  private address: string;
   constructor({ budget }: Required<CostLimitProps>) {
     this.budget = budget;
   }
@@ -25,11 +25,11 @@ export class CostLimit implements IAspect {
       (aspect) => aspect === this
     ) as this | undefined;
     if (nodeWithCostLimitAspect !== undefined) {
-      this.path = node.node.path;
+      this.address = node.node.addr;
     }
 
     if (node instanceof CoreFunction && !(node instanceof Function)) {
-      Function.limitBudget(node, this.budget, this.path);
+      Function.limitBudget(node, this.budget, this.address);
     }
   }
 }
