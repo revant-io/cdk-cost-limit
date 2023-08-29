@@ -1,7 +1,6 @@
 name: Release
 
 on:
-    workflow_dispatch:
     # This job runs when a new release is published
     release:
         types: [published]
