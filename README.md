@@ -37,7 +37,7 @@ This library includes an [Aspect](https://docs.aws.amazon.com/cdk/v2/guide/aspec
 
 - **🚧 Availability** - Disabled resources impacts your application availability
 - **💰 Costs** - Tracking spending and halting resources incur additional costs
-- **🏎️ Performance** - Some implementations negatively impact performances under normal conditions
+- **🏎️ Performance** - Some implementations negatively impact performances
 
 > [!IMPORTANT]
 > 🧑‍💻 We're actively working on reducing cost and perf impacts of this library! We'll [keep you posted](./docs/tradeoffs.md) as we minimize and eventually remove complitely those tradeoffs
