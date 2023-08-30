@@ -18,37 +18,37 @@ const ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX = "REVANT_COST_LIMIT";
 export class Function extends CoreFunction {
   public static CoreConstruct = CoreFunction;
   public static limitBudget(
-    functionConstruct: CoreFunction,
+    lambdaFunction: CoreFunction,
     budget: number,
     address: string
   ) {
     const { layerARM, layerX86, dynamoDBTable, policy } =
-      CoreRessources.getInstance(functionConstruct);
-    dynamoDBTable.grant(functionConstruct, "dynamodb:UpdateItem");
+      CoreRessources.getInstance(lambdaFunction);
+    dynamoDBTable.grant(lambdaFunction, "dynamodb:UpdateItem");
 
     if (
-      functionConstruct.architecture === Architecture.ARM_64 &&
-      !functionConstruct._layers.includes(layerARM)
+      lambdaFunction.architecture === Architecture.ARM_64 &&
+      !lambdaFunction._layers.includes(layerARM)
     ) {
-      functionConstruct.addLayers(layerARM);
+      lambdaFunction.addLayers(layerARM);
     }
 
     if (
-      functionConstruct.architecture === Architecture.X86_64 &&
-      !functionConstruct._layers.includes(layerX86)
+      lambdaFunction.architecture === Architecture.X86_64 &&
+      !lambdaFunction._layers.includes(layerX86)
     ) {
-      functionConstruct.addLayers(layerX86);
+      lambdaFunction.addLayers(layerX86);
     }
 
-    functionConstruct.addEnvironment(
+    lambdaFunction.addEnvironment(
       [ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX, address].join("_"),
       budget.toString()
     );
-    functionConstruct.addEnvironment(
+    lambdaFunction.addEnvironment(
       ENV_VARIABLE_REVANT_COST_TABLE_NAME,
       dynamoDBTable.tableName
     );
-    policy.attachToRole(functionConstruct.role as IRole);
+    policy.attachToRole(lambdaFunction.role as IRole);
   }
 
   public static applyAspect(node: IConstruct, budget: number, address: string) {

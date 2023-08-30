@@ -40,20 +40,18 @@ class EC2InstanceChangeRule extends Rule {
 export class Instance extends InstanceCore {
   public static CoreConstruct = InstanceCore;
   public static limitBudget(
-    instanceConstruct: InstanceCore,
+    instance: InstanceCore,
     budget: number,
     address: string
   ) {
-    new EC2InstanceChangeRule(
-      instanceConstruct,
-      "BillingStartedEC2NotificationRule",
-      { instance: instanceConstruct, states: ["running"] }
-    );
-    new EC2InstanceChangeRule(
-      instanceConstruct,
-      "BillingEndedEC2NotificationRule",
-      { instance: instanceConstruct, states: ["stopping", "shutting-down"] }
-    );
+    new EC2InstanceChangeRule(instance, "BillingStartedEC2NotificationRule", {
+      instance,
+      states: ["running"],
+    });
+    new EC2InstanceChangeRule(instance, "BillingEndedEC2NotificationRule", {
+      instance,
+      states: ["stopping", "shutting-down"],
+    });
   }
 
   public static applyAspect(node: IConstruct, budget: number, address: string) {
