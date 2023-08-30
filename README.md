@@ -46,7 +46,8 @@ This library includes an [Aspect](https://docs.aws.amazon.com/cdk/v2/guide/aspec
 
 ### Prerequisites
 
-CDK Cost Limit is built upon the AWS CDK, so you need to install Node.js (>= 14.15.0), even those working in languages other than TypeScript or JavaScript (see [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_prerequisites)).
+- CDK >= 2 - only applications deployed using AWS CDK can use this library. It is not a standalone application.
+- Node.js >= 14.15.0 - even those working in languages other than TypeScript or JavaScript (see [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_prerequisites))
 
 ### Installation
 
