@@ -83,13 +83,13 @@ export class LambdaCommonResources extends Construct {
   public layerARM: LayerVersion;
   public policy: Policy;
   constructor(scope: Construct) {
-    super(scope, "LambdaCommonResources");
-    this.layerX86 = new LayerVersion(this, "LambdaExtensionLayerX86", {
+    super(scope, "LambdaCommon");
+    this.layerX86 = new LayerVersion(this, "X86ExtensionLayer", {
       code: Code.fromAsset(path.join(__dirname, "../layerX86")),
       compatibleArchitectures: [Architecture.X86_64],
     });
 
-    this.layerARM = new LayerVersion(this, "LambdaExtensionLayerARM", {
+    this.layerARM = new LayerVersion(this, "ARMExtensionLayer", {
       code: Code.fromAsset(path.join(__dirname, "../layerARM")),
       compatibleArchitectures: [Architecture.X86_64],
     });
@@ -105,7 +105,7 @@ export class LambdaCommonResources extends Construct {
       //   }
       // }
     });
-    this.policy = new Policy(scope, "SelfDisablePolicy", {
+    this.policy = new Policy(this, "SelfDisablePolicy", {
       statements: [policyStatement],
     });
   }

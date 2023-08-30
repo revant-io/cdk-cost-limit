@@ -10,7 +10,7 @@ export class CoreRessources extends Construct {
   static instance: CoreRessources;
 
   private constructor(scope: Construct) {
-    super(scope, "RevantCoreResources");
+    super(scope, "RevantCore");
 
     this.dynamoDBTable = new Table(this, "CostTable", {
       partitionKey: {
