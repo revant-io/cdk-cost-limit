@@ -6,7 +6,7 @@ import { LambdaCommonResources } from "./services/lambda";
 
 export class CoreRessources extends Construct {
   public dynamoDBTable: Table;
-  public lambdaCommonResources: LambdaCommonResources;
+  private _lambdaCommonResources?: LambdaCommonResources;
   static instance: CoreRessources;
 
   private constructor(scope: Construct) {
@@ -19,8 +19,13 @@ export class CoreRessources extends Construct {
       },
       billingMode: BillingMode.PAY_PER_REQUEST,
     });
+  }
 
-    this.lambdaCommonResources = new LambdaCommonResources(this);
+  public get lambdaCommonResources() {
+    if (this._lambdaCommonResources === undefined) {
+      this._lambdaCommonResources = new LambdaCommonResources(this);
+    }
+    return this._lambdaCommonResources;
   }
 
   public static getInstance(scope: Construct): CoreRessources {

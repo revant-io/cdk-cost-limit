@@ -82,9 +82,6 @@ export class LambdaCommonResources extends Construct {
   public layerX86: LayerVersion;
   public layerARM: LayerVersion;
   public policy: Policy;
-  // maybe better to expose everything in a single object
-  public object: unknown;
-  // end
   constructor(scope: Construct) {
     super(scope, "LambdaCommonResources");
     this.layerX86 = new LayerVersion(this, "LambdaExtensionLayerX86", {
