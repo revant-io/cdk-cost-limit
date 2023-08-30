@@ -1,7 +1,5 @@
 import { Aspects, IAspect } from "aws-cdk-lib";
 import { IConstruct } from "constructs";
-import { Function as CoreFunction } from "aws-cdk-lib/aws-lambda";
-import { Instance as CoreInstance } from "aws-cdk-lib/aws-ec2";
 import { Function } from "./services/lambda";
 import { Instance } from "./services/ec2";
 
@@ -15,6 +13,8 @@ export type CostLimitProps = {
    */
   readonly budget?: number;
 };
+
+const CostLimitedConstructs = [Function, Instance];
 
 export class CostLimit implements IAspect {
   private budget: number;
@@ -30,12 +30,8 @@ export class CostLimit implements IAspect {
       this.address = node.node.addr;
     }
 
-    if (node instanceof CoreFunction && !(node instanceof Function)) {
-      Function.limitBudget(node, this.budget, this.address);
-    }
-
-    if (node instanceof CoreInstance && !(node instanceof Instance)) {
-      Instance.limitBudget(node, this.budget, this.address);
-    }
+    CostLimitedConstructs.map((CostLimitedConstruct) => {
+      CostLimitedConstruct.applyAspect(node, this.budget, this.address);
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Construct } from "constructs";
+import { Construct, IConstruct } from "constructs";
 import { IRole } from "aws-cdk-lib/aws-iam";
 import {
   Architecture,
@@ -16,6 +16,7 @@ const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
 const ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX = "REVANT_COST_LIMIT";
 
 export class Function extends CoreFunction {
+  public static CoreConstruct = CoreFunction;
   public static limitBudget(
     functionConstruct: CoreFunction,
     budget: number,
@@ -39,12 +40,21 @@ export class Function extends CoreFunction {
       functionConstruct.addLayers(layerX86);
     }
 
-    functionConstruct.addEnvironment([ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX, address].join("_"), budget.toString())
+    functionConstruct.addEnvironment(
+      [ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX, address].join("_"),
+      budget.toString()
+    );
     functionConstruct.addEnvironment(
       ENV_VARIABLE_REVANT_COST_TABLE_NAME,
       dynamoDBTable.tableName
     );
     policy.attachToRole(functionConstruct.role as IRole);
+  }
+
+  public static applyAspect(node: IConstruct, budget: number, address: string) {
+    if (node instanceof this.CoreConstruct && !(node instanceof this)) {
+      this.limitBudget(node, budget, address);
+    }
   }
 
   constructor(

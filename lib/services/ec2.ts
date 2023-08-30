@@ -1,6 +1,12 @@
-import { Instance as InstanceCore } from "aws-cdk-lib/aws-ec2";
+import {
+  Instance as InstanceCore,
+  InstanceProps as CoreInstanceProps,
+} from "aws-cdk-lib/aws-ec2";
 import { Rule } from "aws-cdk-lib/aws-events";
-import { Construct } from "constructs";
+import { Construct, IConstruct } from "constructs";
+import { CostLimitProps } from "../cost-limit";
+
+export type InstanceProps = CostLimitProps & CoreInstanceProps;
 
 class EC2InstanceChangeRule extends Rule {
   constructor(
@@ -32,6 +38,7 @@ class EC2InstanceChangeRule extends Rule {
 }
 
 export class Instance extends InstanceCore {
+  public static CoreConstruct = InstanceCore;
   public static limitBudget(
     instanceConstruct: InstanceCore,
     budget: number,
@@ -47,5 +54,26 @@ export class Instance extends InstanceCore {
       "BillingEndedEC2NotificationRule",
       { instance: instanceConstruct, states: ["stopping", "shutting-down"] }
     );
+  }
+
+  public static applyAspect(node: IConstruct, budget: number, address: string) {
+    if (node instanceof this.CoreConstruct && !(node instanceof this)) {
+      this.limitBudget(node, budget, address);
+    }
+  }
+
+  constructor(
+    scope: Construct,
+    id: string,
+    { budget, ...instanceProps }: InstanceProps
+  ) {
+    super(scope, id, instanceProps);
+
+    if (budget === undefined) {
+      // No budget restriction, early return
+      return;
+    }
+
+    Instance.limitBudget(this, budget, this.node.addr);
   }
 }
