@@ -28,7 +28,7 @@ const LISTENER_PORT = 7654;
 
 // Extension specific variables
 const LAMBDA_EXTENSION_NAME = "revant";
-const DYNAMODB_BUDGET_ATTRIBUTE_NAME = "budget";
+const DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME = "accruedExpenses";
 
 const registerExtension = async (): Promise<{
   extensionId: string;
@@ -184,14 +184,28 @@ const processTelemetryEvents = async (
       },
       { totalMemoryDurationMsMB: 0, invocationCount: 0 }
     );
-  const { budget: updatedBudget } = await updateCurrentBudget(
-    newInvocationsCumulativeLambdaMetrics
+  const budgets = Object.fromEntries(
+    Object.entries(process.env)
+      .filter(([key]) => key.startsWith(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX))
+      .map(([key, value]) => [
+        key.slice(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX.length + 1),
+        Number(value),
+      ])
   );
   console.log(
-    `[telementry-listener:${LAMBDA_EXTENSION_NAME}] Budget has been updated in DynamoDB`
+    `[telementry-listener:${LAMBDA_EXTENSION_NAME}] budgets: ${Object.entries(
+      budgets
+    )}`
+  );
+  const updatedBudgetAccruedExpenses = await updateAllBudgetAccruedExpenses(
+    newInvocationsCumulativeLambdaMetrics,
+    budgets
+  );
+  console.log(
+    `[telementry-listener:${LAMBDA_EXTENSION_NAME}] Budgets have been updated in DynamoDB`
   );
 
-  if (isExceedingBudget(updatedBudget)) {
+  if (isExceedingAnyBudget(updatedBudgetAccruedExpenses, budgets)) {
     console.log(
       `[telementry-listener:${LAMBDA_EXTENSION_NAME}] Budget exceeded, disabling Lambda function by setting reserved concurrency to 0`
     );
@@ -243,44 +257,42 @@ interface CumulativeLambdaMetrics {
 
 const INVOCATION_PER_TEN_MILLION_PRICE = 2;
 const DURATION_MEMORY_PER_BILLION_PRICE = 16667;
-const updateCurrentBudget = async ({
-  totalMemoryDurationMsMB,
-  invocationCount,
-}: CumulativeLambdaMetrics): Promise<{ budget: number }> => {
+const updateAllBudgetAccruedExpenses = async (
+  { totalMemoryDurationMsMB, invocationCount }: CumulativeLambdaMetrics,
+  budgets: Record<string, number>
+): Promise<Record<string, number>> => {
   const prefix = new Date().toISOString().slice(0, 7);
-  const budgets = Object.fromEntries(
-    Object.entries(process.env)
-      .filter(([key]) => key.startsWith(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX))
-      .map(([key, value]) => [
-        key.slice(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX.length + 1),
-        value,
-      ])
-  );
-  console.log(
-    `[telementry-listener:${LAMBDA_EXTENSION_NAME}] budgets: ${budgets}`
-  );
-  const address = Object.keys(budgets).pop();
-  const addedBudget =
+  const addresses = Object.keys(budgets);
+  const addedExpenses =
     (invocationCount / 10000000) * INVOCATION_PER_TEN_MILLION_PRICE +
     (totalMemoryDurationMsMB / (1000000000 * 1000 * 1000)) *
       DURATION_MEMORY_PER_BILLION_PRICE;
-  const { Attributes } = await dynamoDBDocumentClient.send(
-    new UpdateCommand({
-      TableName: process.env[ENV_VARIABLE_REVANT_COST_TABLE_NAME],
-      ReturnValues: "UPDATED_NEW",
-      Key: {
-        PK: [prefix, address].join("#"),
-      },
-      UpdateExpression: `ADD #B :budget`,
-      ExpressionAttributeNames: {
-        "#B": DYNAMODB_BUDGET_ATTRIBUTE_NAME,
-      },
-      ExpressionAttributeValues: {
-        ":budget": addedBudget,
-      },
+  // We could use TransctWriteItems instead of paralell updateItem calls, however transact does not return updated item
+  const updatedBudgetAccruedExpenses: Record<string, number> = {};
+  await Promise.allSettled(
+    addresses.map(async (address) => {
+      const { Attributes } = await dynamoDBDocumentClient.send(
+        new UpdateCommand({
+          TableName: process.env[ENV_VARIABLE_REVANT_COST_TABLE_NAME],
+          ReturnValues: "UPDATED_NEW",
+          Key: {
+            PK: [prefix, address].join("#"),
+          },
+          UpdateExpression: `ADD #B :accruedExpenses`,
+          ExpressionAttributeNames: {
+            "#B": DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME,
+          },
+          ExpressionAttributeValues: {
+            ":accruedExpenses": addedExpenses,
+          },
+        })
+      );
+      Object.assign(updatedBudgetAccruedExpenses, {
+        [address]: Attributes?.[DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME],
+      });
     })
   );
-  return Attributes as { budget: number };
+  return updatedBudgetAccruedExpenses;
 };
 
 const subscribeTelemetry = async (extensionId: string, listenerUri: string) => {
@@ -329,16 +341,13 @@ const subscribeTelemetry = async (extensionId: string, listenerUri: string) => {
   }
 };
 
-const isExceedingBudget = (currentBudget: number) => {
-  const budgets = Object.fromEntries(
-    Object.entries(process.env)
-      .filter(([key]) => key.startsWith(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX))
-      .map(([key, value]) => [
-        key.slice(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX.length + 1),
-        value,
-      ])
+const isExceedingAnyBudget = (
+  updatedBudgetAccruedExpenses: Record<string, number>,
+  budgets: Record<string, number>
+) => {
+  return Object.entries(budgets).some(
+    ([address, budget]) => updatedBudgetAccruedExpenses[address] > budget
   );
-  return currentBudget > Number(Object.values(budgets).pop());
 };
 
 const main = async () => {

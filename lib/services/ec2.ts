@@ -55,7 +55,7 @@ export class Instance extends InstanceCore {
   }
 
   public static applyAspect(node: IConstruct, budget: number, address: string) {
-    if (node instanceof this.CoreConstruct && !(node instanceof this)) {
+    if (node instanceof this.CoreConstruct) {
       this.limitBudget(node, budget, address);
     }
   }
