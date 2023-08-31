@@ -17,6 +17,7 @@ export type FunctionProps = CostLimitProps & CoreFunctionProps;
 // Env variables names used internally - duplicated in extension code, should be deduplicated
 const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
 const ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX = "REVANT_COST_LIMIT";
+const REVANTIOS_IN_ONE_CENT = 100000000;
 
 export class Function extends CoreFunction {
   public static CoreConstruct = CoreFunction;
@@ -47,7 +48,7 @@ export class Function extends CoreFunction {
 
     lambdaFunction.addEnvironment(
       [ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX, address].join("_"),
-      budget.toString()
+      (budget * REVANTIOS_IN_ONE_CENT).toString()
     );
     lambdaFunction.addEnvironment(
       ENV_VARIABLE_REVANT_COST_TABLE_NAME,

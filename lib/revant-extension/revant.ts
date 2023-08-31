@@ -255,19 +255,25 @@ interface CumulativeLambdaMetrics {
   invocationCount: number;
 }
 
-const INVOCATION_PER_TEN_MILLION_PRICE = 2;
-const DURATION_MEMORY_PER_BILLION_PRICE = 16667;
+const PER_INVOCATION_PRICE_REVANTIOS = 2000;
+const PER_1024MB_PER_SECOND_PRICE_REVANTIOS = 16667;
+
+const MS_IN_ONE_SECOND = 1000;
 const updateAllBudgetAccruedExpenses = async (
   { totalMemoryDurationMsMB, invocationCount }: CumulativeLambdaMetrics,
   budgets: Record<string, number>
 ): Promise<Record<string, number>> => {
   const prefix = new Date().toISOString().slice(0, 7);
   const addresses = Object.keys(budgets);
-  const addedExpenses =
-    (invocationCount / 10000000) * INVOCATION_PER_TEN_MILLION_PRICE +
-    (totalMemoryDurationMsMB / (1000000000 * 1000 * 1000)) *
-      DURATION_MEMORY_PER_BILLION_PRICE;
-  // We could use TransctWriteItems instead of paralell updateItem calls, however transact does not return updated item
+  const invocationAddedExpensesRevantios =
+    invocationCount * PER_INVOCATION_PRICE_REVANTIOS;
+  const durationAddedExpensesRevantios = Math.round(
+    (totalMemoryDurationMsMB * PER_1024MB_PER_SECOND_PRICE_REVANTIOS) /
+      (MS_IN_ONE_SECOND * 1024)
+  );
+  const addedExpensesRevantios =
+    invocationAddedExpensesRevantios + durationAddedExpensesRevantios;
+  // We could use TransctWriteItems instead of paralell updateItem calls, however transact does not return updated accrued expenses
   const updatedBudgetAccruedExpenses: Record<string, number> = {};
   await Promise.allSettled(
     addresses.map(async (address) => {
@@ -283,7 +289,7 @@ const updateAllBudgetAccruedExpenses = async (
             "#B": DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME,
           },
           ExpressionAttributeValues: {
-            ":accruedExpenses": addedExpenses,
+            ":accruedExpenses": addedExpensesRevantios,
           },
         })
       );
