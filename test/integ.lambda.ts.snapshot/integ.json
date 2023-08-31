@@ -1,0 +1,12 @@
+{
+  "version": "33.0.0",
+  "testCases": {
+    "LambdaFunctionInteg/DefaultTest": {
+      "stacks": [
+        "StackUnderTest"
+      ],
+      "assertionStack": "LambdaFunctionInteg/DefaultTest/DeployAssert",
+      "assertionStackName": "LambdaFunctionIntegDefaultTestDeployAssert5389DF69"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { App, Aspects, Names, Stack, StackProps } from "aws-cdk-lib";
+import { App, Aspects, Duration, Stack, StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {
   Architecture,
@@ -6,59 +6,83 @@ import {
   Runtime,
   Function as CoreFunction,
 } from "aws-cdk-lib/aws-lambda";
-import { ExpectedResult, IntegTest } from "@aws-cdk/integ-tests-alpha";
+import {
+  ExpectedResult,
+  IntegTest,
+  InvocationType,
+} from "@aws-cdk/integ-tests-alpha";
 
-import { Function, CostLimit } from "../lib";
+import { CostLimit } from "../lib";
+import { CoreRessources } from "../lib/core-resources";
 
 const app = new App();
 
-class StackUnderTest extends Stack {
+class LambdaStack extends Stack {
+  public budgetAmountRevantios = 10000000000;
   public functionName: string;
-  constructor(scope: Construct, id: string, props: StackProps) {
+  public dynamoDBBudgetIndex: string;
+  public dynamoDBTableName: string;
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const nodejsFunction = new Function(this, "Handler", {
+    const nodejsFunction = new CoreFunction(this, "Handler", {
       architecture: Architecture.X86_64,
       code: InlineCode.fromInline(
-        `exports.handler = (event, context, callback) => { setTimeout(callback(null, "hello world from Lambda ${Names.uniqueId(
-          scope
-        )}"), 100) }`
+        `exports.handler = (event, context, callback) => { setTimeout(() => callback("Throwing an error to have multiple execution triggered"), 1000) }`
       ),
-      memorySize: 512,
-      runtime: Runtime.NODEJS_16_X,
-      handler: "index.handler",
-      budget: 100,
-    });
-
-    const aspectFunction = new CoreFunction(this, "Handler2", {
-      architecture: Architecture.ARM_64,
-      code: InlineCode.fromInline(
-        `exports.handler = (event, context, callback) => { setTimeout(callback(null, "hello world from Lambda ${Names.uniqueId(
-          scope
-        )}"), 100) }`
-      ),
-      memorySize: 512,
-      runtime: Runtime.NODEJS_16_X,
+      memorySize: 1024,
+      runtime: Runtime.NODEJS_18_X,
       handler: "index.handler",
     });
-
-    Aspects.of(aspectFunction).add(new CostLimit({ budget: 200 }));
-    Aspects.of(this).add(new CostLimit({ budget: 1000 }));
-
     this.functionName = nodejsFunction.functionName;
+
+    Aspects.of(this).add(
+      new CostLimit({ budget: this.budgetAmountRevantios / 100000000 })
+    );
+    this.dynamoDBBudgetIndex = [
+      new Date().toISOString().slice(0, 7),
+      this.node.addr,
+    ].join("#");
+    this.dynamoDBTableName =
+      CoreRessources.getInstance(this).dynamoDBTable.tableName;
   }
 }
 
-const stackUnderTest = new StackUnderTest(app, "StackUnderTest", {});
-const integ = new IntegTest(app, "Integ", {
+const stackUnderTest = new LambdaStack(app, "StackUnderTest");
+const integ = new IntegTest(app, "LambdaFunctionInteg", {
   testCases: [stackUnderTest],
 });
 
-const invoke = integ.assertions.invokeFunction({
-  functionName: stackUnderTest.functionName,
-});
-invoke.expect(
-  ExpectedResult.objectLike({
-    Payload: "200",
+integ.assertions
+  .awsApiCall("DynamoDB", "putItem", {
+    TableName: stackUnderTest.dynamoDBTableName,
+    Item: {
+      PK: { S: stackUnderTest.dynamoDBBudgetIndex },
+      accruedExpenses: {
+        N: (stackUnderTest.budgetAmountRevantios - 1).toString(),
+      },
+    },
   })
-);
+  .next(
+    integ.assertions.invokeFunction({
+      functionName: stackUnderTest.functionName,
+      invocationType: InvocationType.EVENT,
+    })
+  )
+  .next(
+    integ.assertions
+      .awsApiCall("Lambda", "getFunction", {
+        FunctionName: stackUnderTest.functionName,
+      })
+      .expect(
+        ExpectedResult.objectLike({
+          Concurrency: {
+            ReservedConcurrentExecutions: 0,
+          },
+        })
+      )
+      .waitForAssertions({
+        totalTimeout: Duration.minutes(2),
+        interval: Duration.seconds(3),
+      })
+  );
