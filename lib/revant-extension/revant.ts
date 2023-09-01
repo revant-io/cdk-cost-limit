@@ -29,6 +29,7 @@ const LISTENER_PORT = 7654;
 // Extension specific variables
 const LAMBDA_EXTENSION_NAME = "revant";
 const DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME = "accruedExpenses";
+const DYNAMODB_LAST_UPDATE_ATTRIBUTE_NAME = "updatedAt";
 
 const registerExtension = async (): Promise<{
   extensionId: string;
@@ -263,7 +264,7 @@ const updateAllBudgetAccruedExpenses = async (
   { totalMemoryDurationMsMB, invocationCount }: CumulativeLambdaMetrics,
   budgets: Record<string, number>
 ): Promise<Record<string, number>> => {
-  const prefix = new Date().toISOString().slice(0, 7);
+  const currentDate = new Date().toISOString();
   const addresses = Object.keys(budgets);
   const invocationAddedExpensesRevantios =
     invocationCount * PER_INVOCATION_PRICE_REVANTIOS;
@@ -282,14 +283,16 @@ const updateAllBudgetAccruedExpenses = async (
           TableName: process.env[ENV_VARIABLE_REVANT_COST_TABLE_NAME],
           ReturnValues: "UPDATED_NEW",
           Key: {
-            PK: [prefix, address].join("#"),
+            PK: [currentDate.slice(0, 7), address].join("#"),
           },
-          UpdateExpression: `ADD #B :accruedExpenses`,
+          UpdateExpression: `ADD #B :accruedExpenses SET #U = :updatedAt`,
           ExpressionAttributeNames: {
             "#B": DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME,
+            "#U": DYNAMODB_LAST_UPDATE_ATTRIBUTE_NAME,
           },
           ExpressionAttributeValues: {
             ":accruedExpenses": addedExpensesRevantios,
+            ":updatedAt": currentDate,
           },
         })
       );
