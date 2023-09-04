@@ -14,11 +14,12 @@ import {
 
 import { CostLimit } from "../lib";
 import { CoreRessources } from "../lib/core-resources";
+import { Revantios } from "../lib/revantios";
 
 const app = new App();
 
 class LambdaStack extends Stack {
-  public budgetAmountRevantios = 10000000000;
+  public budget = Revantios.fromUSD(1);
   public functionName: string;
   public dynamoDBBudgetIndex: string;
   public dynamoDBTableName: string;
@@ -36,9 +37,7 @@ class LambdaStack extends Stack {
     });
     this.functionName = nodejsFunction.functionName;
 
-    Aspects.of(this).add(
-      new CostLimit({ budget: this.budgetAmountRevantios / 100000000 })
-    );
+    Aspects.of(this).add(new CostLimit({ budget: this.budget.toCents() }));
     this.dynamoDBBudgetIndex = [
       new Date().toISOString().slice(0, 7),
       this.node.addr,
@@ -59,7 +58,7 @@ integ.assertions
     Item: {
       PK: { S: stackUnderTest.dynamoDBBudgetIndex },
       accruedExpenses: {
-        N: (stackUnderTest.budgetAmountRevantios - 1).toString(),
+        N: (stackUnderTest.budget.amount - 1).toString(),
       },
     },
   })
