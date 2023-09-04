@@ -83,7 +83,7 @@ export class LambdaCommonResources extends Construct {
   public layerX86: LayerVersion;
   public layerARM: LayerVersion;
   public policy: Policy;
-  constructor(scope: Construct) {
+  constructor(scope: CoreRessources) {
     super(scope, "LambdaCommon");
     this.layerX86 = new LayerVersion(this, "X86ExtensionLayer", {
       code: Code.fromAsset(path.join(__dirname, "../layerX86")),
