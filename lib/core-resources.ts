@@ -1,9 +1,23 @@
-import path from "path";
 import { Construct } from "constructs";
-import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
+import {
+  AttributeType,
+  BillingMode,
+  StreamViewType,
+  Table,
+} from "aws-cdk-lib/aws-dynamodb";
 import { Stack } from "aws-cdk-lib";
 import { LambdaCommonResources } from "./services/lambda";
 import { EC2CommonResources } from "./services/ec2";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import { DynamoEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
+import {
+  FilterCriteria,
+  FilterRule,
+  StartingPosition,
+} from "aws-cdk-lib/aws-lambda";
+
+const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
+const DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME = "incurredExpensesRate";
 
 export class CoreRessources extends Construct {
   public dynamoDBTable: Table;
@@ -20,7 +34,43 @@ export class CoreRessources extends Construct {
         type: AttributeType.STRING,
       },
       billingMode: BillingMode.PAY_PER_REQUEST,
+      stream: StreamViewType.NEW_AND_OLD_IMAGES,
     });
+    const updateAccruedExpensesWithCurrentIncurredExpensesRate =
+      new NodejsFunction(
+        this,
+        "UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction",
+        {
+          entry:
+            "lib/functions/updateAccruedExpensesWithCurrentIncurredExpensesRate.ts",
+        }
+      );
+    this.dynamoDBTable.grant(
+      updateAccruedExpensesWithCurrentIncurredExpensesRate,
+      "dynamodb:UpdateItem"
+    );
+    updateAccruedExpensesWithCurrentIncurredExpensesRate.addEnvironment(
+      ENV_VARIABLE_REVANT_COST_TABLE_NAME,
+      this.dynamoDBTable.tableName
+    );
+    updateAccruedExpensesWithCurrentIncurredExpensesRate.addEventSource(
+      new DynamoEventSource(this.dynamoDBTable, {
+        startingPosition: StartingPosition.LATEST,
+        reportBatchItemFailures: true,
+        filters: [
+          FilterCriteria.filter({
+            eventName: FilterRule.isEqual("MODIFY"),
+            dynamodb: {
+              OldImage: {
+                [DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME]: {
+                  N: FilterRule.exists(),
+                },
+              },
+            },
+          }),
+        ],
+      })
+    );
   }
 
   public get lambdaCommonResources() {
