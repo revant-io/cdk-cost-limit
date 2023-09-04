@@ -103,8 +103,8 @@ export class Instance extends InstanceCore {
 
 export class EC2CommonResources extends Construct {
   public updateBudget: NodejsFunction;
-  constructor(scope: CoreRessources) {
-    super(scope, "EC2Common");
+  constructor(coreResources: CoreRessources) {
+    super(coreResources, "EC2Common");
 
     this.updateBudget = new NodejsFunction(this, "UpdateBudgetFunction", {
       entry: "lib/functions/updateBudget.ts",
@@ -123,11 +123,12 @@ export class EC2CommonResources extends Construct {
         resources: ["*"],
       })
     );
-    scope.dynamoDBTable.grant(this.updateBudget, "dynamodb:UpdateItem");
+    const { dynamoDBTable } = coreResources;
+    dynamoDBTable.grant(this.updateBudget, "dynamodb:UpdateItem");
 
     this.updateBudget.addEnvironment(
       ENV_VARIABLE_REVANT_COST_TABLE_NAME,
-      scope.dynamoDBTable.tableName
+      dynamoDBTable.tableName
     );
   }
 }

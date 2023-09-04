@@ -3,10 +3,12 @@ import { Construct } from "constructs";
 import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
 import { Stack } from "aws-cdk-lib";
 import { LambdaCommonResources } from "./services/lambda";
+import { EC2CommonResources } from "./services/ec2";
 
 export class CoreRessources extends Construct {
   public dynamoDBTable: Table;
   private _lambdaCommonResources?: LambdaCommonResources;
+  private _ec2CommonResources?: EC2CommonResources;
   static instance: CoreRessources;
 
   private constructor(scope: Construct) {
@@ -26,6 +28,13 @@ export class CoreRessources extends Construct {
       this._lambdaCommonResources = new LambdaCommonResources(this);
     }
     return this._lambdaCommonResources;
+  }
+
+  public get ec2CommonResources() {
+    if (this._ec2CommonResources === undefined) {
+      this._ec2CommonResources = new EC2CommonResources(this);
+    }
+    return this._ec2CommonResources;
   }
 
   public static getInstance(scope: Construct): CoreRessources {
