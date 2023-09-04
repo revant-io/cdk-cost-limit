@@ -2,6 +2,7 @@ import { Handler } from "aws-lambda";
 import {
   DescribeInstanceAttributeCommand,
   EC2Client,
+  StopInstancesCommand,
 } from "@aws-sdk/client-ec2";
 import { GetProductsCommand, PricingClient } from "@aws-sdk/client-pricing";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
@@ -21,10 +22,15 @@ const dynamoDBDocumentClient = DynamoDBDocumentClient.from(dynamoDBClient);
 
 const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
 
+const DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME = "accruedExpenses";
 const DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME = "incurredExpensesRate";
 const DYNAMODB_LAST_UPDATE_ATTRIBUTE_NAME = "updatedAt";
 
-export const handler: Handler<Event> = async ({ instanceId, address }) => {
+export const handler: Handler<Event> = async ({
+  instanceId,
+  address,
+  budget,
+}) => {
   const { InstanceType } = await ec2Client.send(
     new DescribeInstanceAttributeCommand({
       InstanceId: instanceId,
@@ -95,7 +101,7 @@ export const handler: Handler<Event> = async ({ instanceId, address }) => {
   console.log(hourlyOnDemandPriceRevantios.toString());
 
   const currentDate = new Date().toISOString();
-  await dynamoDBDocumentClient.send(
+  const { Attributes } = await dynamoDBDocumentClient.send(
     new UpdateCommand({
       TableName: process.env[ENV_VARIABLE_REVANT_COST_TABLE_NAME],
       Key: {
@@ -110,6 +116,21 @@ export const handler: Handler<Event> = async ({ instanceId, address }) => {
         ":newResourceExpensesRate": hourlyOnDemandPriceRevantios.toRate(3600),
         ":updatedAt": currentDate,
       },
+      ReturnValues: "ALL_NEW",
+    })
+  );
+
+  const accruedExpenses: number =
+    Attributes?.[DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME] ?? 0;
+  const isOverBudget = accruedExpenses > budget;
+
+  if (!isOverBudget) {
+    return;
+  }
+
+  await ec2Client.send(
+    new StopInstancesCommand({
+      InstanceIds: [instanceId],
     })
   );
 };

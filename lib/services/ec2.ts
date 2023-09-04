@@ -112,7 +112,7 @@ export class EC2CommonResources extends Construct {
     this.updateBudget.addToRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
-        actions: ["ec2:DescribeInstanceAttribute"],
+        actions: ["ec2:DescribeInstanceAttribute", "ec2:StopInstances"],
         resources: ["*"],
       })
     );
