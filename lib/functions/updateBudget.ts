@@ -107,9 +107,7 @@ export const handler: Handler<Event> = async ({ instanceId, address }) => {
         "#U": DYNAMODB_LAST_UPDATE_ATTRIBUTE_NAME,
       },
       ExpressionAttributeValues: {
-        ":newResourceExpensesRate": hourlyOnDemandPriceRevantios.toRate(
-          3600 * 1000
-        ),
+        ":newResourceExpensesRate": hourlyOnDemandPriceRevantios.toRate(3600),
         ":updatedAt": currentDate,
       },
     })

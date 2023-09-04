@@ -10,8 +10,8 @@ export class Revantios {
 
   public toString = (): string => this._amount.toString();
 
-  public toRate = (duration: number): number =>
-    Math.round(this._amount / duration);
+  public toRate = (durationInSeconds: number): number =>
+    Math.round(this._amount / durationInSeconds);
 
   public toCents = (): number => Math.round(this._amount / 100000000);
 

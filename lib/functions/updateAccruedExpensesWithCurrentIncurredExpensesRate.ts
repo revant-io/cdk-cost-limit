@@ -35,9 +35,11 @@ const calculateNewAccruedExpenses = ({
   oldBudget,
   newBudget,
 }: BudgetUpdateOperation): number =>
-  (new Date(newBudget[DYNAMODB_LAST_UPDATE_ATTRIBUTE_NAME]).getTime() -
-    new Date(oldBudget[DYNAMODB_LAST_UPDATE_ATTRIBUTE_NAME]).getTime()) *
-  oldBudget[DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME];
+  Math.round(
+    (new Date(newBudget[DYNAMODB_LAST_UPDATE_ATTRIBUTE_NAME]).getTime() -
+      new Date(oldBudget[DYNAMODB_LAST_UPDATE_ATTRIBUTE_NAME]).getTime()) /
+      1000
+  ) * oldBudget[DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME];
 
 export const handler: DynamoDBStreamHandler = async ({ Records }) => {
   console.log(`${Records.length} records received`);

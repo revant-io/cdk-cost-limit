@@ -13,7 +13,7 @@ Similar to a position.
 
 ### Inccured futur expenses
 
-Saved within the `inccuredExpensesRate` fied in each budget item in DynamoDB. Updated when a time-sensitive expense is added or removed for the stack. The persisted unit is [Revantios](./revantios.md)/ms.
+Saved within the `inccuredExpensesRate` fied in each budget item in DynamoDB. Updated when a time-sensitive expense is added or removed for the stack. The persisted unit is [Revantios](./revantios.md)/second.
 
 Similar to a speed.
 
