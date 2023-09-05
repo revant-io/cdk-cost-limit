@@ -11,6 +11,7 @@ import { Construct, IConstruct } from "constructs";
 import { CostLimitProps } from "../cost-limit";
 import { CoreRessources } from "../core-resources";
 import { Revantios } from "../revantios";
+import path from "path";
 
 // Env variables names used internally - duplicated in extension code, should be deduplicated
 const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
@@ -107,7 +108,7 @@ export class EC2CommonResources extends Construct {
     super(coreResources, "EC2Common");
 
     this.updateBudget = new NodejsFunction(this, "UpdateBudgetFunction", {
-      entry: "lib/functions/updateBudget.ts",
+      entry: path.join(__dirname, "../functions/updateBudget.ts"),
     });
     this.updateBudget.addToRolePolicy(
       new PolicyStatement({

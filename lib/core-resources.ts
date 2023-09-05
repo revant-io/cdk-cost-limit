@@ -15,6 +15,7 @@ import {
   FilterRule,
   StartingPosition,
 } from "aws-cdk-lib/aws-lambda";
+import path from "path";
 
 const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
 const DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME = "incurredExpensesRate";
@@ -41,8 +42,10 @@ export class CoreRessources extends Construct {
         this,
         "UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction",
         {
-          entry:
-            "lib/functions/updateAccruedExpensesWithCurrentIncurredExpensesRate.ts",
+          entry: path.join(
+            __dirname,
+            "./functions/updateAccruedExpensesWithCurrentIncurredExpensesRate.ts"
+          ),
         }
       );
     this.dynamoDBTable.grant(
