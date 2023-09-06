@@ -55,6 +55,8 @@ export class Instance extends InstanceCore {
     address: string
   ) {
     const onEC2Started = new EC2InstanceChangeRule(
+      // This resource should not be created at current instance CDK path, in order to always be immune to budget
+      // But it can't be created at RevantCore path, otherwise more than one construct with the same name can be instanciated
       instance,
       "BillingStartedEC2NotificationRule",
       {
