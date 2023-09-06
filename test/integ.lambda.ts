@@ -47,7 +47,7 @@ class LambdaStack extends Stack {
   }
 }
 
-const stackUnderTest = new LambdaStack(app, "StackUnderTest");
+const stackUnderTest = new LambdaStack(app, "LambdaStackUnderTest");
 const integ = new IntegTest(app, "LambdaFunctionInteg", {
   testCases: [stackUnderTest],
 });

@@ -4,21 +4,21 @@
     "id": "App",
     "path": "",
     "children": {
-      "StackUnderTest": {
-        "id": "StackUnderTest",
-        "path": "StackUnderTest",
+      "LambdaStackUnderTest": {
+        "id": "LambdaStackUnderTest",
+        "path": "LambdaStackUnderTest",
         "children": {
           "Handler": {
             "id": "Handler",
-            "path": "StackUnderTest/Handler",
+            "path": "LambdaStackUnderTest/Handler",
             "children": {
               "ServiceRole": {
                 "id": "ServiceRole",
-                "path": "StackUnderTest/Handler/ServiceRole",
+                "path": "LambdaStackUnderTest/Handler/ServiceRole",
                 "children": {
                   "ImportServiceRole": {
                     "id": "ImportServiceRole",
-                    "path": "StackUnderTest/Handler/ServiceRole/ImportServiceRole",
+                    "path": "LambdaStackUnderTest/Handler/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.92.0"
@@ -26,7 +26,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "StackUnderTest/Handler/ServiceRole/Resource",
+                    "path": "LambdaStackUnderTest/Handler/ServiceRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -65,11 +65,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "StackUnderTest/Handler/ServiceRole/DefaultPolicy",
+                    "path": "LambdaStackUnderTest/Handler/ServiceRole/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "StackUnderTest/Handler/ServiceRole/DefaultPolicy/Resource",
+                        "path": "LambdaStackUnderTest/Handler/ServiceRole/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -120,7 +120,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "StackUnderTest/Handler/Resource",
+                "path": "LambdaStackUnderTest/Handler/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -132,7 +132,7 @@
                     },
                     "environment": {
                       "variables": {
-                        "REVANT_COST_LIMIT_c89d434ad34730e75505fab2f73866f151f0310334": "10000000000",
+                        "REVANT_COST_LIMIT_c8fd0c43e6b25f63e981a0d66726245598c8974b2d": "10000000000",
                         "REVANT_COST_TABLE_NAME": {
                           "Ref": "RevantCoreCostTable7B7089AB"
                         }
@@ -167,15 +167,15 @@
           },
           "RevantCore": {
             "id": "RevantCore",
-            "path": "StackUnderTest/RevantCore",
+            "path": "LambdaStackUnderTest/RevantCore",
             "children": {
               "CostTable": {
                 "id": "CostTable",
-                "path": "StackUnderTest/RevantCore/CostTable",
+                "path": "LambdaStackUnderTest/RevantCore/CostTable",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "StackUnderTest/RevantCore/CostTable/Resource",
+                    "path": "LambdaStackUnderTest/RevantCore/CostTable/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
                       "aws:cdk:cloudformation:props": {
@@ -191,7 +191,10 @@
                             "attributeName": "PK",
                             "keyType": "HASH"
                           }
-                        ]
+                        ],
+                        "streamSpecification": {
+                          "streamViewType": "NEW_AND_OLD_IMAGES"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -201,7 +204,7 @@
                   },
                   "ScalingRole": {
                     "id": "ScalingRole",
-                    "path": "StackUnderTest/RevantCore/CostTable/ScalingRole",
+                    "path": "LambdaStackUnderTest/RevantCore/CostTable/ScalingRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.92.0"
@@ -213,21 +216,261 @@
                   "version": "2.92.0"
                 }
               },
+              "UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction": {
+                "id": "UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction",
+                "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.92.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.92.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "dynamodb:UpdateItem",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "RevantCoreCostTable7B7089AB",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Ref": "AWS::NoValue"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Action": "dynamodb:ListStreams",
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": [
+                                        "dynamodb:DescribeStream",
+                                        "dynamodb:GetRecords",
+                                        "dynamodb:GetShardIterator"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::GetAtt": [
+                                          "RevantCoreCostTable7B7089AB",
+                                          "StreamArn"
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRoleDefaultPolicy3C2C6390",
+                                "roles": [
+                                  {
+                                    "Ref": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRole176AA758"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.92.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.92.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.92.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.92.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.92.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.92.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "3d0ed04128f7a73685fa26cd18facba2ffc6ba76775010e856976db6cb55ad5f.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "REVANT_COST_TABLE_NAME": {
+                              "Ref": "RevantCoreCostTable7B7089AB"
+                            }
+                          }
+                        },
+                        "handler": "index.handler",
+                        "role": {
+                          "Fn::GetAtt": [
+                            "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRole176AA758",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.92.0"
+                    }
+                  },
+                  "DynamoDBEventSource:LambdaStackUnderTestRevantCoreCostTable17C44308": {
+                    "id": "DynamoDBEventSource:LambdaStackUnderTestRevantCoreCostTable17C44308",
+                    "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/DynamoDBEventSource:LambdaStackUnderTestRevantCoreCostTable17C44308",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/DynamoDBEventSource:LambdaStackUnderTestRevantCoreCostTable17C44308/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                          "aws:cdk:cloudformation:props": {
+                            "batchSize": 100,
+                            "eventSourceArn": {
+                              "Fn::GetAtt": [
+                                "RevantCoreCostTable7B7089AB",
+                                "StreamArn"
+                              ]
+                            },
+                            "filterCriteria": {
+                              "filters": [
+                                {
+                                  "pattern": "{\"eventName\":[\"MODIFY\"],\"dynamodb\":{\"OldImage\":{\"incurredExpensesRate\":{\"N\":[{\"exists\":true}]}}}}"
+                                }
+                              ]
+                            },
+                            "functionName": {
+                              "Ref": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction2329799D"
+                            },
+                            "functionResponseTypes": [
+                              "ReportBatchItemFailures"
+                            ],
+                            "startingPosition": "LATEST"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnEventSourceMapping",
+                          "version": "2.92.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.EventSourceMapping",
+                      "version": "2.92.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+                  "version": "2.92.0"
+                }
+              },
               "LambdaCommon": {
                 "id": "LambdaCommon",
-                "path": "StackUnderTest/RevantCore/LambdaCommon",
+                "path": "LambdaStackUnderTest/RevantCore/LambdaCommon",
                 "children": {
                   "X86ExtensionLayer": {
                     "id": "X86ExtensionLayer",
-                    "path": "StackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer",
+                    "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer",
                     "children": {
                       "Code": {
                         "id": "Code",
-                        "path": "StackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Code",
+                        "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Code",
                         "children": {
                           "Stage": {
                             "id": "Stage",
-                            "path": "StackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Code/Stage",
+                            "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
                               "version": "2.92.0"
@@ -235,7 +478,7 @@
                           },
                           "AssetBucket": {
                             "id": "AssetBucket",
-                            "path": "StackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Code/AssetBucket",
+                            "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                               "version": "2.92.0"
@@ -249,7 +492,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "StackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Resource",
+                        "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
                           "aws:cdk:cloudformation:props": {
@@ -260,7 +503,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "ac76ec0a5bd05498c8fa62d48dc1eb51581b983ecf10fa8cb02e986429471714.zip"
+                              "s3Key": "aa857b65ff9af94cba4cd5de2a3385041caa030c88771bde130d43a6764cad15.zip"
                             }
                           }
                         },
@@ -277,15 +520,15 @@
                   },
                   "ARMExtensionLayer": {
                     "id": "ARMExtensionLayer",
-                    "path": "StackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer",
+                    "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer",
                     "children": {
                       "Code": {
                         "id": "Code",
-                        "path": "StackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Code",
+                        "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Code",
                         "children": {
                           "Stage": {
                             "id": "Stage",
-                            "path": "StackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Code/Stage",
+                            "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
                               "version": "2.92.0"
@@ -293,7 +536,7 @@
                           },
                           "AssetBucket": {
                             "id": "AssetBucket",
-                            "path": "StackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Code/AssetBucket",
+                            "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                               "version": "2.92.0"
@@ -307,7 +550,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "StackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Resource",
+                        "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
                           "aws:cdk:cloudformation:props": {
@@ -318,7 +561,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "37b1f478a9079deb9dcd9d3dda5dab934a10fbcbb0cb154ed716ad16185c2c64.zip"
+                              "s3Key": "43e511947f735164e1650244c3515cdf82b6c3d0ccdcf0dc74e372d0f3f9ee65.zip"
                             }
                           }
                         },
@@ -335,11 +578,11 @@
                   },
                   "SelfDisablePolicy": {
                     "id": "SelfDisablePolicy",
-                    "path": "StackUnderTest/RevantCore/LambdaCommon/SelfDisablePolicy",
+                    "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/SelfDisablePolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "StackUnderTest/RevantCore/LambdaCommon/SelfDisablePolicy/Resource",
+                        "path": "LambdaStackUnderTest/RevantCore/LambdaCommon/SelfDisablePolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -386,11 +629,11 @@
           },
           "Exports": {
             "id": "Exports",
-            "path": "StackUnderTest/Exports",
+            "path": "LambdaStackUnderTest/Exports",
             "children": {
               "Output{\"Ref\":\"RevantCoreCostTable7B7089AB\"}": {
                 "id": "Output{\"Ref\":\"RevantCoreCostTable7B7089AB\"}",
-                "path": "StackUnderTest/Exports/Output{\"Ref\":\"RevantCoreCostTable7B7089AB\"}",
+                "path": "LambdaStackUnderTest/Exports/Output{\"Ref\":\"RevantCoreCostTable7B7089AB\"}",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnOutput",
                   "version": "2.92.0"
@@ -398,7 +641,7 @@
               },
               "Output{\"Ref\":\"Handler886CB40B\"}": {
                 "id": "Output{\"Ref\":\"Handler886CB40B\"}",
-                "path": "StackUnderTest/Exports/Output{\"Ref\":\"Handler886CB40B\"}",
+                "path": "LambdaStackUnderTest/Exports/Output{\"Ref\":\"Handler886CB40B\"}",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnOutput",
                   "version": "2.92.0"
@@ -412,7 +655,7 @@
           },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
-            "path": "StackUnderTest/BootstrapVersion",
+            "path": "LambdaStackUnderTest/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
               "version": "2.92.0"
@@ -420,7 +663,7 @@
           },
           "CheckBootstrapVersion": {
             "id": "CheckBootstrapVersion",
-            "path": "StackUnderTest/CheckBootstrapVersion",
+            "path": "LambdaStackUnderTest/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
               "version": "2.92.0"
@@ -452,17 +695,17 @@
                 "id": "DeployAssert",
                 "path": "LambdaFunctionInteg/DefaultTest/DeployAssert",
                 "children": {
-                  "AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657": {
-                    "id": "AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657",
-                    "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657",
+                  "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad": {
+                    "id": "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad",
+                    "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad",
                     "children": {
                       "SdkProvider": {
                         "id": "SdkProvider",
-                        "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657/SdkProvider",
+                        "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/SdkProvider",
                         "children": {
                           "AssertionsProvider": {
                             "id": "AssertionsProvider",
-                            "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657/SdkProvider/AssertionsProvider",
+                            "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
                               "version": "10.2.69"
@@ -476,11 +719,11 @@
                       },
                       "Default": {
                         "id": "Default",
-                        "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657/Default",
+                        "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/Default",
                         "children": {
                           "Default": {
                             "id": "Default",
-                            "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657/Default/Default",
+                            "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
                               "version": "2.92.0"

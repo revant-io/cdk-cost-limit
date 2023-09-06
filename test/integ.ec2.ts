@@ -42,7 +42,7 @@ class EC2Stack extends Stack {
   }
 }
 
-const stackUnderTest = new EC2Stack(app, "StackUnderTest");
+const stackUnderTest = new EC2Stack(app, "EC2StackUnderTest");
 const integ = new IntegTest(app, "EC2Integ", {
   testCases: [stackUnderTest],
 });

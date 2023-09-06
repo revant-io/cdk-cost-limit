@@ -1,6 +1,6 @@
 {
  "Resources": {
-  "AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657": {
+  "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad": {
    "Type": "Custom::DeployAssert@SdkCallDynamoDBputItem",
    "Properties": {
     "ServiceToken": {
@@ -18,16 +18,16 @@
        [
         "\"",
         {
-         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefRevantCoreCostTable7B7089ABE054E00D"
+         "Fn::ImportValue": "LambdaStackUnderTest:ExportsOutputRefRevantCoreCostTable7B7089ABE054E00D"
         },
         "\""
        ]
       ]
      },
-     "Item": "{\"PK\":{\"S\":\"2023-08#c89d434ad34730e75505fab2f73866f151f0310334\"},\"accruedExpenses\":{\"N\":\"9999999999\"}}"
+     "Item": "{\"PK\":{\"S\":\"2023-09#c8fd0c43e6b25f63e981a0d66726245598c8974b2d\"},\"accruedExpenses\":{\"N\":\"9999999999\"},\"updatedAt\":{\"S\":\"2023-09-06T14:55:16.400Z\"}}"
     },
     "flattenResponse": "false",
-    "salt": "1693495939503"
+    "salt": "1694012116405"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -100,7 +100,7 @@
              },
              ":function:",
              {
-              "Fn::ImportValue": "StackUnderTest:ExportsOutputRefHandler886CB40BD176DC16"
+              "Fn::ImportValue": "LambdaStackUnderTest:ExportsOutputRefHandler886CB40BD176DC16"
              }
             ]
            ]
@@ -169,7 +169,7 @@
        [
         "\"",
         {
-         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefHandler886CB40BD176DC16"
+         "Fn::ImportValue": "LambdaStackUnderTest:ExportsOutputRefHandler886CB40BD176DC16"
         },
         "\""
        ]
@@ -178,10 +178,10 @@
      "InvocationType": "\"Event\""
     },
     "flattenResponse": "false",
-    "salt": "1693495939504"
+    "salt": "1694012116405"
    },
    "DependsOn": [
-    "AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657"
+    "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -191,7 +191,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "StackUnderTest:ExportsOutputRefHandler886CB40BD176DC16"
+     "Fn::ImportValue": "LambdaStackUnderTest:ExportsOutputRefHandler886CB40BD176DC16"
     },
     "Principal": {
      "Fn::GetAtt": [
@@ -201,7 +201,7 @@
     }
    },
    "DependsOn": [
-    "AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657"
+    "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad"
    ]
   },
   "AwsApiCallLambdagetFunction0d0818f03506c4cac7eeba2359f728ae": {
@@ -226,7 +226,7 @@
        [
         "\"",
         {
-         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefHandler886CB40BD176DC16"
+         "Fn::ImportValue": "LambdaStackUnderTest:ExportsOutputRefHandler886CB40BD176DC16"
         },
         "\""
        ]
@@ -234,7 +234,7 @@
      }
     },
     "flattenResponse": "false",
-    "salt": "1693495939504"
+    "salt": "1694012116406"
    },
    "DependsOn": [
     "LambdaInvokec729a187849f320633c83e53d03dbaba",

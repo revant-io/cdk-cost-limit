@@ -1,27 +1,27 @@
 {
   "version": "33.0.0",
   "artifacts": {
-    "StackUnderTest.assets": {
+    "LambdaStackUnderTest.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "StackUnderTest.assets.json",
+        "file": "LambdaStackUnderTest.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "StackUnderTest": {
+    "LambdaStackUnderTest": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
-        "templateFile": "StackUnderTest.template.json",
+        "templateFile": "LambdaStackUnderTest.template.json",
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/19eaf0e6565535e25bc5b891748d7b5d6b373f65a87695cf96a78be92963a830.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/71ab07c895f3cfdc12b53f5c3a715469217358f4695ecc9cbd88b6a000ad54c3.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "StackUnderTest.assets"
+          "LambdaStackUnderTest.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
@@ -30,77 +30,101 @@
         }
       },
       "dependencies": [
-        "StackUnderTest.assets"
+        "LambdaStackUnderTest.assets"
       ],
       "metadata": {
-        "/StackUnderTest/Handler/ServiceRole/Resource": [
+        "/LambdaStackUnderTest/Handler/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "HandlerServiceRoleFCDC14AE"
           }
         ],
-        "/StackUnderTest/Handler/ServiceRole/DefaultPolicy/Resource": [
+        "/LambdaStackUnderTest/Handler/ServiceRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "HandlerServiceRoleDefaultPolicyCBD0CC91"
           }
         ],
-        "/StackUnderTest/Handler/Resource": [
+        "/LambdaStackUnderTest/Handler/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "Handler886CB40B"
           }
         ],
-        "/StackUnderTest/RevantCore/CostTable/Resource": [
+        "/LambdaStackUnderTest/RevantCore/CostTable/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "RevantCoreCostTable7B7089AB"
           }
         ],
-        "/StackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Resource": [
+        "/LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRole176AA758"
+          }
+        ],
+        "/LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRoleDefaultPolicy3C2C6390"
+          }
+        ],
+        "/LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction2329799D"
+          }
+        ],
+        "/LambdaStackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/DynamoDBEventSource:LambdaStackUnderTestRevantCoreCostTable17C44308/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionDynamoDBEventSourceLambdaStackUnderTestRevantCoreCostTable17C443080B8C613B"
+          }
+        ],
+        "/LambdaStackUnderTest/RevantCore/LambdaCommon/X86ExtensionLayer/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "RevantCoreLambdaCommonX86ExtensionLayer51DEEBAB"
           }
         ],
-        "/StackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Resource": [
+        "/LambdaStackUnderTest/RevantCore/LambdaCommon/ARMExtensionLayer/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "RevantCoreLambdaCommonARMExtensionLayer372E7C0C"
           }
         ],
-        "/StackUnderTest/RevantCore/LambdaCommon/SelfDisablePolicy/Resource": [
+        "/LambdaStackUnderTest/RevantCore/LambdaCommon/SelfDisablePolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "RevantCoreLambdaCommonSelfDisablePolicy90C2DBAB"
           }
         ],
-        "/StackUnderTest/Exports/Output{\"Ref\":\"RevantCoreCostTable7B7089AB\"}": [
+        "/LambdaStackUnderTest/Exports/Output{\"Ref\":\"RevantCoreCostTable7B7089AB\"}": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ExportsOutputRefRevantCoreCostTable7B7089ABE054E00D"
           }
         ],
-        "/StackUnderTest/Exports/Output{\"Ref\":\"Handler886CB40B\"}": [
+        "/LambdaStackUnderTest/Exports/Output{\"Ref\":\"Handler886CB40B\"}": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ExportsOutputRefHandler886CB40BD176DC16"
           }
         ],
-        "/StackUnderTest/BootstrapVersion": [
+        "/LambdaStackUnderTest/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/StackUnderTest/CheckBootstrapVersion": [
+        "/LambdaStackUnderTest/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "StackUnderTest"
+      "displayName": "LambdaStackUnderTest"
     },
     "LambdaFunctionIntegDefaultTestDeployAssert5389DF69.assets": {
       "type": "cdk:asset-manifest",
@@ -118,7 +142,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/10ce5f9818140453923867617e4e33e6ea26613df34ba62fa85741cc7e5f532b.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b2db71085a6fcd811d0ed5fba68631548413a59785de8e2e572c65be19ba3a35.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -131,14 +155,14 @@
         }
       },
       "dependencies": [
-        "StackUnderTest",
+        "LambdaStackUnderTest",
         "LambdaFunctionIntegDefaultTestDeployAssert5389DF69.assets"
       ],
       "metadata": {
-        "/LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657/Default/Default": [
+        "/LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/Default/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AwsApiCallDynamoDBputItem9b74ed75e886af000de653fe0cb94657"
+            "data": "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad"
           }
         ],
         "/LambdaFunctionInteg/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [

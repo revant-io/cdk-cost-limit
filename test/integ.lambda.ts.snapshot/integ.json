@@ -3,7 +3,7 @@
   "testCases": {
     "LambdaFunctionInteg/DefaultTest": {
       "stacks": [
-        "StackUnderTest"
+        "LambdaStackUnderTest"
       ],
       "assertionStack": "LambdaFunctionInteg/DefaultTest/DeployAssert",
       "assertionStackName": "LambdaFunctionIntegDefaultTestDeployAssert5389DF69"

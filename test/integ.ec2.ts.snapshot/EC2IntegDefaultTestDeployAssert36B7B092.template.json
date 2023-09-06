@@ -18,7 +18,7 @@
        [
         "[\"",
         {
-         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefEC2Instance770AAE32A1707F90"
+         "Fn::ImportValue": "EC2StackUnderTest:ExportsOutputRefEC2Instance770AAE32A1707F90"
         },
         "\"]"
        ]
@@ -26,7 +26,7 @@
      }
     },
     "flattenResponse": "false",
-    "salt": "1694010170001"
+    "salt": "1694012790544"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -168,7 +168,7 @@
        [
         "[\"",
         {
-         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefEC2Instance770AAE32A1707F90"
+         "Fn::ImportValue": "EC2StackUnderTest:ExportsOutputRefEC2Instance770AAE32A1707F90"
         },
         "\"]"
        ]
@@ -178,7 +178,7 @@
      "Filters": "[{\"Name\":\"instance-state-name\",\"Values\":[\"pending\",\"running\",\"shutting-down\",\"terminated\",\"stopping\",\"stopped\"]}]"
     },
     "flattenResponse": "false",
-    "salt": "1694010170001"
+    "salt": "1694012790544"
    },
    "DependsOn": [
     "AwsApiCallEC2stopInstancesae3190c9cc698cf969f9acf9d133e035"
@@ -425,7 +425,7 @@
     }
    }
   },
-  "AwsApiCallDynamoDBputItem92f698e7eec98c7e7c063fdbb7a1ad52": {
+  "AwsApiCallDynamoDBputItemefd261a4428d09668b91214c4ea140f4": {
    "Type": "Custom::DeployAssert@SdkCallDynamoDBputItem",
    "Properties": {
     "ServiceToken": {
@@ -443,16 +443,16 @@
        [
         "\"",
         {
-         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefRevantCoreCostTable7B7089ABE054E00D"
+         "Fn::ImportValue": "EC2StackUnderTest:ExportsOutputRefRevantCoreCostTable7B7089ABE054E00D"
         },
         "\""
        ]
       ]
      },
-     "Item": "{\"PK\":{\"S\":\"2023-09#c89d434ad34730e75505fab2f73866f151f0310334\"},\"accruedExpenses\":{\"N\":\"10000000001\"},\"updatedAt\":{\"S\":\"2023-09-06T14:22:50.002Z\"}}"
+     "Item": "{\"PK\":{\"S\":\"2023-09#c8f5ec86153761e35310d3376adad0942b36297052\"},\"accruedExpenses\":{\"N\":\"10000000001\"},\"updatedAt\":{\"S\":\"2023-09-06T15:06:30.545Z\"}}"
     },
     "flattenResponse": "false",
-    "salt": "1694010170002"
+    "salt": "1694012790545"
    },
    "DependsOn": [
     "AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424",
@@ -482,7 +482,7 @@
        [
         "[\"",
         {
-         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefEC2Instance770AAE32A1707F90"
+         "Fn::ImportValue": "EC2StackUnderTest:ExportsOutputRefEC2Instance770AAE32A1707F90"
         },
         "\"]"
        ]
@@ -490,10 +490,10 @@
      }
     },
     "flattenResponse": "false",
-    "salt": "1694010170002"
+    "salt": "1694012790545"
    },
    "DependsOn": [
-    "AwsApiCallDynamoDBputItem92f698e7eec98c7e7c063fdbb7a1ad52"
+    "AwsApiCallDynamoDBputItemefd261a4428d09668b91214c4ea140f4"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -520,7 +520,7 @@
        [
         "[\"",
         {
-         "Fn::ImportValue": "StackUnderTest:ExportsOutputRefEC2Instance770AAE32A1707F90"
+         "Fn::ImportValue": "EC2StackUnderTest:ExportsOutputRefEC2Instance770AAE32A1707F90"
         },
         "\"]"
        ]
@@ -529,7 +529,7 @@
      "IncludeAllInstances": "true"
     },
     "flattenResponse": "false",
-    "salt": "1694010170002"
+    "salt": "1694012790545"
    },
    "DependsOn": [
     "AwsApiCallEC2startInstancesae3190c9cc698cf969f9acf9d133e035"

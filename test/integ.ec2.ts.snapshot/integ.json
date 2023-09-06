@@ -3,7 +3,7 @@
   "testCases": {
     "EC2Integ/DefaultTest": {
       "stacks": [
-        "StackUnderTest"
+        "EC2StackUnderTest"
       ],
       "assertionStack": "EC2Integ/DefaultTest/DeployAssert",
       "assertionStackName": "EC2IntegDefaultTestDeployAssert36B7B092"
