@@ -60,6 +60,9 @@ integ.assertions
       accruedExpenses: {
         N: (stackUnderTest.budget.amount - 1).toString(),
       },
+      updatedAt: {
+        S: new Date().toISOString(),
+      }
     },
   })
   .next(
