@@ -1,0 +1,496 @@
+{
+  "version": "33.0.0",
+  "artifacts": {
+    "StackUnderTest.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "StackUnderTest.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "StackUnderTest": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "StackUnderTest.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/750f5c6c2f29f08a15357e22b847db1fe6d4768d0af3fad4d03505d1b150edf0.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "StackUnderTest.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "StackUnderTest.assets"
+      ],
+      "metadata": {
+        "/StackUnderTest/VPC/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCB9E5F0B4"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1SubnetB4246D30"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1RouteTableFEE4B781"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1RouteTableAssociation0B0896DC"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1DefaultRoute91CEF279"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1EIP6AD938E8"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1NATGatewayE0556630"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2Subnet74179F39"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2RouteTable6F1A15F1"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2RouteTableAssociation5A808732"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2DefaultRouteB7481BBA"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2EIP4947BC00"
+          }
+        ],
+        "/StackUnderTest/VPC/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2NATGateway3C070193"
+          }
+        ],
+        "/StackUnderTest/VPC/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1Subnet8BCA10E0"
+          }
+        ],
+        "/StackUnderTest/VPC/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1RouteTableBE8A6027"
+          }
+        ],
+        "/StackUnderTest/VPC/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1RouteTableAssociation347902D1"
+          }
+        ],
+        "/StackUnderTest/VPC/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1DefaultRouteAE1D6490"
+          }
+        ],
+        "/StackUnderTest/VPC/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2SubnetCFCDAA7A"
+          }
+        ],
+        "/StackUnderTest/VPC/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2RouteTable0A19E10E"
+          }
+        ],
+        "/StackUnderTest/VPC/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2RouteTableAssociation0C73D413"
+          }
+        ],
+        "/StackUnderTest/VPC/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2DefaultRouteF4F5CFD2"
+          }
+        ],
+        "/StackUnderTest/VPC/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCIGWB7E252D3"
+          }
+        ],
+        "/StackUnderTest/VPC/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCVPCGW99B986DC"
+          }
+        ],
+        "/StackUnderTest/VPC/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCRestrictDefaultSecurityGroupCustomResource59474679"
+          }
+        ],
+        "/StackUnderTest/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/StackUnderTest/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/StackUnderTest/EC2Instance/InstanceSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2InstanceInstanceSecurityGroup84027316"
+          }
+        ],
+        "/StackUnderTest/EC2Instance/InstanceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2InstanceInstanceRoleBDF87973"
+          }
+        ],
+        "/StackUnderTest/EC2Instance/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2InstanceInstanceProfile4A6C6689"
+          }
+        ],
+        "/StackUnderTest/EC2Instance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EC2Instance770AAE32"
+          }
+        ],
+        "/StackUnderTest/SsmParameterValue:--aws--service--ami-amazon-linux-latest--al2023-ami-kernel-6.1-x86_64:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceamiamazonlinuxlatestal2023amikernel61x8664C96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/StackUnderTest/RevantCore/CostTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreCostTable7B7089AB"
+          }
+        ],
+        "/StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRole176AA758"
+          }
+        ],
+        "/StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRoleDefaultPolicy3C2C6390"
+          }
+        ],
+        "/StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction2329799D"
+          }
+        ],
+        "/StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/DynamoDBEventSource:StackUnderTestRevantCoreCostTable725240FA/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionDynamoDBEventSourceStackUnderTestRevantCoreCostTable725240FAB5BBFDAF"
+          }
+        ],
+        "/StackUnderTest/RevantCore/BillingStartedEC2NotificationRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreBillingStartedEC2NotificationRule16A35D58"
+          }
+        ],
+        "/StackUnderTest/RevantCore/BillingStartedEC2NotificationRule/AllowEventRuleStackUnderTestRevantCoreEC2CommonUpdateBudgetFunction0A9FAED8": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreBillingStartedEC2NotificationRuleAllowEventRuleStackUnderTestRevantCoreEC2CommonUpdateBudgetFunction0A9FAED853F7F7A9"
+          }
+        ],
+        "/StackUnderTest/RevantCore/EC2Common/UpdateBudgetFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreEC2CommonUpdateBudgetFunctionServiceRoleDE816420"
+          }
+        ],
+        "/StackUnderTest/RevantCore/EC2Common/UpdateBudgetFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreEC2CommonUpdateBudgetFunctionServiceRoleDefaultPolicy2B25531D"
+          }
+        ],
+        "/StackUnderTest/RevantCore/EC2Common/UpdateBudgetFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreEC2CommonUpdateBudgetFunctionAA6A510F"
+          }
+        ],
+        "/StackUnderTest/RevantCore/BillingEndedEC2NotificationRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreBillingEndedEC2NotificationRuleAC4CCC0A"
+          }
+        ],
+        "/StackUnderTest/Exports/Output{\"Ref\":\"EC2Instance770AAE32\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefEC2Instance770AAE32A1707F90"
+          }
+        ],
+        "/StackUnderTest/Exports/Output{\"Ref\":\"RevantCoreCostTable7B7089AB\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefRevantCoreCostTable7B7089ABE054E00D"
+          }
+        ],
+        "/StackUnderTest/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/StackUnderTest/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "StackUnderTest"
+    },
+    "EC2IntegDefaultTestDeployAssert36B7B092.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "EC2IntegDefaultTestDeployAssert36B7B092.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "EC2IntegDefaultTestDeployAssert36B7B092": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "EC2IntegDefaultTestDeployAssert36B7B092.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/75c6b1cf86a248dc15e88a228e2481094dad1accc666c91c0b03fa3797e5c7cb.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "EC2IntegDefaultTestDeployAssert36B7B092.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "StackUnderTest",
+        "EC2IntegDefaultTestDeployAssert36B7B092.assets"
+      ],
+      "metadata": {
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2stopInstancesae3190c9cc698cf969f9acf9d133e035/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2stopInstancesae3190c9cc698cf969f9acf9d133e035"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424/WaitFor/IsCompleteProvider/Invoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424WaitForIsCompleteProviderInvoke5A0D00DE"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424/WaitFor/TimeoutProvider/Invoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424WaitForTimeoutProviderInvoke6D9450D9"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424/WaitFor/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424WaitForRoleB8936DF4"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424/WaitFor/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424WaitForC0438EDD"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424/AssertionResults": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssertionResultsAwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction76b3e830a873425f8453eddd85c86925Role918961BB"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction76b3e830a873425f8453eddd85c86925Handler81461ECE"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41aRoleB84BD8CE"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41aHandlerADF3E6EA"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItem92f698e7eec98c7e7c063fdbb7a1ad52/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallDynamoDBputItem92f698e7eec98c7e7c063fdbb7a1ad52"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2startInstancesae3190c9cc698cf969f9acf9d133e035/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2startInstancesae3190c9cc698cf969f9acf9d133e035"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffec/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffec"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffec/WaitFor/IsCompleteProvider/Invoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffecWaitForIsCompleteProviderInvokeC014EB9B"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffec/WaitFor/TimeoutProvider/Invoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffecWaitForTimeoutProviderInvoke1B795A23"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffec/WaitFor/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffecWaitForRoleA209E0A6"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffec/WaitFor/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffecWaitFor31A0A205"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffec/AssertionResults": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssertionResultsAwsApiCallEC2describeInstanceStatus0a2580b7eeda5611db2ccfa5888fffec"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/EC2Integ/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "EC2Integ/DefaultTest/DeployAssert"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

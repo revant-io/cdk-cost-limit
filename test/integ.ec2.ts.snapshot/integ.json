@@ -1,0 +1,12 @@
+{
+  "version": "33.0.0",
+  "testCases": {
+    "EC2Integ/DefaultTest": {
+      "stacks": [
+        "StackUnderTest"
+      ],
+      "assertionStack": "EC2Integ/DefaultTest/DeployAssert",
+      "assertionStackName": "EC2IntegDefaultTestDeployAssert36B7B092"
+    }
+  }
+}
