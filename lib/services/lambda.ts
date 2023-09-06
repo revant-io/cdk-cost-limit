@@ -58,7 +58,10 @@ export class Function extends CoreFunction {
   }
 
   public static applyAspect(node: IConstruct, budget: number, address: string) {
-    if (node instanceof this.CoreConstruct) {
+    if (
+      !node.node.scopes.includes(CoreRessources.getInstance(node)) &&
+      node instanceof this.CoreConstruct
+    ) {
       this.limitBudget(node, budget, address);
     }
   }
