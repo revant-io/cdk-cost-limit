@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3a6278219005c65cf02b6db9d30b907d3e35189fb4a892dff9a35d59c7efaf75.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8120cdcfefcafaea628026c2c00aa72c2711c3066ed2a8f9c689285e71d0b15f.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -33,6 +33,54 @@
         "EC2StackUnderTest.assets"
       ],
       "metadata": {
+        "/EC2StackUnderTest/RevantCore/CostTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreCostTable7B7089AB"
+          }
+        ],
+        "/EC2StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRole176AA758"
+          }
+        ],
+        "/EC2StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRoleDefaultPolicy3C2C6390"
+          }
+        ],
+        "/EC2StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction2329799D"
+          }
+        ],
+        "/EC2StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/DynamoDBEventSource:EC2StackUnderTestRevantCoreCostTable8304933F/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionDynamoDBEventSourceEC2StackUnderTestRevantCoreCostTable8304933FC18443D2"
+          }
+        ],
+        "/EC2StackUnderTest/RevantCore/EC2Common/UpdateBudgetFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreEC2CommonUpdateBudgetFunctionServiceRoleDE816420"
+          }
+        ],
+        "/EC2StackUnderTest/RevantCore/EC2Common/UpdateBudgetFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreEC2CommonUpdateBudgetFunctionServiceRoleDefaultPolicy2B25531D"
+          }
+        ],
+        "/EC2StackUnderTest/RevantCore/EC2Common/UpdateBudgetFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RevantCoreEC2CommonUpdateBudgetFunctionAA6A510F"
+          }
+        ],
         "/EC2StackUnderTest/VPC/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -237,54 +285,6 @@
             "data": "SsmParameterValueawsserviceamiamazonlinuxlatestal2023amikernel61x8664C96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "/EC2StackUnderTest/RevantCore/CostTable/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RevantCoreCostTable7B7089AB"
-          }
-        ],
-        "/EC2StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRole176AA758"
-          }
-        ],
-        "/EC2StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRoleDefaultPolicy3C2C6390"
-          }
-        ],
-        "/EC2StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction2329799D"
-          }
-        ],
-        "/EC2StackUnderTest/RevantCore/UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction/DynamoDBEventSource:EC2StackUnderTestRevantCoreCostTable8304933F/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionDynamoDBEventSourceEC2StackUnderTestRevantCoreCostTable8304933FC18443D2"
-          }
-        ],
-        "/EC2StackUnderTest/RevantCore/EC2Common/UpdateBudgetFunction/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RevantCoreEC2CommonUpdateBudgetFunctionServiceRoleDE816420"
-          }
-        ],
-        "/EC2StackUnderTest/RevantCore/EC2Common/UpdateBudgetFunction/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RevantCoreEC2CommonUpdateBudgetFunctionServiceRoleDefaultPolicy2B25531D"
-          }
-        ],
-        "/EC2StackUnderTest/RevantCore/EC2Common/UpdateBudgetFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RevantCoreEC2CommonUpdateBudgetFunctionAA6A510F"
-          }
-        ],
         "/EC2StackUnderTest/Exports/Output{\"Ref\":\"EC2Instance770AAE32\"}": [
           {
             "type": "aws:cdk:logicalId",
@@ -328,7 +328,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/0cb8b99422440380d6b24c36030d9775039ff42fbe62b46230d3d264345ec19b.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8f0857fc1d012a5bbb3d33d9d631725fd115daa1908a53674b97ab116bd27a92.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -423,10 +423,10 @@
             "data": "SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41aHandlerADF3E6EA"
           }
         ],
-        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemefd261a4428d09668b91214c4ea140f4/Default/Default": [
+        "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemff310099c11c3b1d47f94c2d167ede56/Default/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AwsApiCallDynamoDBputItemefd261a4428d09668b91214c4ea140f4"
+            "data": "AwsApiCallDynamoDBputItemff310099c11c3b1d47f94c2d167ede56"
           }
         ],
         "/EC2Integ/DefaultTest/DeployAssert/AwsApiCallEC2startInstancesae3190c9cc698cf969f9acf9d133e035/Default/Default": [

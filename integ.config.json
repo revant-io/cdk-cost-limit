@@ -1,6 +1,7 @@
 {
     "maxWorkers": 2,
     "parallelRegions": [
+        "us-east-1",
         "eu-west-1"
     ],
     "language": "typescript"

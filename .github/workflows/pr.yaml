@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-    release:
+    test:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
@@ -18,9 +18,7 @@ jobs:
               with:
                   path: ~/.npm
                   key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
-            # Store the name of the release
-            # See https://stackoverflow.com/questions/58177786/get-the-current-pushed-tag-in-github-actions
-            - run: npm i
+            - run: npm ci
             - run: npm run build
             - run: npm run layer:build
             - run: npm run test:integ

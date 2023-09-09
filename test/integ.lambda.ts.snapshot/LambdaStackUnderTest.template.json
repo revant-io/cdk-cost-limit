@@ -1,104 +1,5 @@
 {
  "Resources": {
-  "HandlerServiceRoleFCDC14AE": {
-   "Type": "AWS::IAM::Role",
-   "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "lambda.amazonaws.com"
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "ManagedPolicyArns": [
-     {
-      "Fn::Join": [
-       "",
-       [
-        "arn:",
-        {
-         "Ref": "AWS::Partition"
-        },
-        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-       ]
-      ]
-     }
-    ]
-   }
-  },
-  "HandlerServiceRoleDefaultPolicyCBD0CC91": {
-   "Type": "AWS::IAM::Policy",
-   "Properties": {
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": "dynamodb:UpdateItem",
-       "Effect": "Allow",
-       "Resource": [
-        {
-         "Fn::GetAtt": [
-          "RevantCoreCostTable7B7089AB",
-          "Arn"
-         ]
-        },
-        {
-         "Ref": "AWS::NoValue"
-        }
-       ]
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "PolicyName": "HandlerServiceRoleDefaultPolicyCBD0CC91",
-    "Roles": [
-     {
-      "Ref": "HandlerServiceRoleFCDC14AE"
-     }
-    ]
-   }
-  },
-  "Handler886CB40B": {
-   "Type": "AWS::Lambda::Function",
-   "Properties": {
-    "Architectures": [
-     "x86_64"
-    ],
-    "Code": {
-     "ZipFile": "exports.handler = (event, context, callback) => { setTimeout(() => callback(\"Throwing an error to have multiple execution triggered\"), 1000) }"
-    },
-    "Environment": {
-     "Variables": {
-      "REVANT_COST_LIMIT_c8fd0c43e6b25f63e981a0d66726245598c8974b2d": "10000000000",
-      "REVANT_COST_TABLE_NAME": {
-       "Ref": "RevantCoreCostTable7B7089AB"
-      }
-     }
-    },
-    "Handler": "index.handler",
-    "Layers": [
-     {
-      "Ref": "RevantCoreLambdaCommonX86ExtensionLayer51DEEBAB"
-     }
-    ],
-    "MemorySize": 1024,
-    "Role": {
-     "Fn::GetAtt": [
-      "HandlerServiceRoleFCDC14AE",
-      "Arn"
-     ]
-    },
-    "Runtime": "nodejs18.x"
-   },
-   "DependsOn": [
-    "HandlerServiceRoleDefaultPolicyCBD0CC91",
-    "HandlerServiceRoleFCDC14AE"
-   ]
-  },
   "RevantCoreCostTable7B7089AB": {
    "Type": "AWS::DynamoDB::Table",
    "Properties": {
@@ -119,8 +20,8 @@
      "StreamViewType": "NEW_AND_OLD_IMAGES"
     }
    },
-   "UpdateReplacePolicy": "Retain",
-   "DeletionPolicy": "Retain"
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
   },
   "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRole176AA758": {
    "Type": "AWS::IAM::Role",
@@ -151,7 +52,9 @@
       ]
      }
     ]
-   }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
   },
   "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRoleDefaultPolicy3C2C6390": {
    "Type": "AWS::IAM::Policy",
@@ -201,7 +104,9 @@
       "Ref": "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRole176AA758"
      }
     ]
-   }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
   },
   "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction2329799D": {
    "Type": "AWS::Lambda::Function",
@@ -232,7 +137,9 @@
    "DependsOn": [
     "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRoleDefaultPolicy3C2C6390",
     "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionServiceRole176AA758"
-   ]
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
   },
   "RevantCoreUpdateAccruedExpensesWithCurrentIncurredExpensesRateFunctionDynamoDBEventSourceLambdaStackUnderTestRevantCoreCostTable17C443080B8C613B": {
    "Type": "AWS::Lambda::EventSourceMapping",
@@ -258,7 +165,9 @@
      "ReportBatchItemFailures"
     ],
     "StartingPosition": "LATEST"
-   }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
   },
   "RevantCoreLambdaCommonX86ExtensionLayer51DEEBAB": {
    "Type": "AWS::Lambda::LayerVersion",
@@ -270,7 +179,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "aa857b65ff9af94cba4cd5de2a3385041caa030c88771bde130d43a6764cad15.zip"
+     "S3Key": "11771e96b4ed91b01afe292e4170f9b7ae728c60fcc287403ec038d27fe0996b.zip"
     }
    }
   },
@@ -284,7 +193,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "43e511947f735164e1650244c3515cdf82b6c3d0ccdcf0dc74e372d0f3f9ee65.zip"
+     "S3Key": "d23ebbecb01bc67d16a1d464d0dae7fcf618658e130ee892799fa43db8bac12d.zip"
     }
    }
   },
@@ -308,6 +217,111 @@
      }
     ]
    }
+  },
+  "HandlerServiceRoleFCDC14AE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "HandlerServiceRoleDefaultPolicyCBD0CC91": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "dynamodb:UpdateItem",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "RevantCoreCostTable7B7089AB",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "HandlerServiceRoleDefaultPolicyCBD0CC91",
+    "Roles": [
+     {
+      "Ref": "HandlerServiceRoleFCDC14AE"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "Handler886CB40B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "ZipFile": "exports.handler = (event, context, callback) => { setTimeout(() => callback(\"Throwing an error to have multiple execution triggered\"), 1000) }"
+    },
+    "Environment": {
+     "Variables": {
+      "REVANT_COST_LIMIT_c8fd0c43e6b25f63e981a0d66726245598c8974b2d": "10000000000",
+      "REVANT_COST_TABLE_NAME": {
+       "Ref": "RevantCoreCostTable7B7089AB"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "RevantCoreLambdaCommonX86ExtensionLayer51DEEBAB"
+     }
+    ],
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "HandlerServiceRoleFCDC14AE",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "HandlerServiceRoleDefaultPolicyCBD0CC91",
+    "HandlerServiceRoleFCDC14AE"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
   }
  },
  "Outputs": {

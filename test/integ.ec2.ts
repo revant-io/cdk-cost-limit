@@ -1,4 +1,4 @@
-import { App, Aspects, Duration, Stack, StackProps } from "aws-cdk-lib";
+import { App, Duration, StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import { ExpectedResult, IntegTest, Match } from "@aws-cdk/integ-tests-alpha";
 
@@ -10,17 +10,12 @@ import {
   MachineImage,
   Vpc,
 } from "aws-cdk-lib/aws-ec2";
-import { Revantios } from "../lib/revantios";
-import { CostLimit } from "../lib";
-import { CoreRessources } from "../lib/core-resources";
+import { BaseStackUnderTest } from "./test-utils";
 
 const app = new App();
 
-class EC2Stack extends Stack {
-  public budget = Revantios.fromUSD(1);
+class EC2Stack extends BaseStackUnderTest {
   public instanceId: string;
-  public dynamoDBBudgetIndex: string;
-  public dynamoDBTableName: string;
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -31,14 +26,7 @@ class EC2Stack extends Stack {
       machineImage: MachineImage.latestAmazonLinux2023(),
     });
 
-    Aspects.of(this).add(new CostLimit({ budget: this.budget.toCents() }));
     this.instanceId = instance.instanceId;
-    this.dynamoDBBudgetIndex = [
-      new Date().toISOString().slice(0, 7),
-      this.node.addr,
-    ].join("#");
-    this.dynamoDBTableName =
-      CoreRessources.getInstance(this).dynamoDBTable.tableName;
   }
 }
 
@@ -98,7 +86,7 @@ integ.assertions
         },
         updatedAt: {
           S: new Date().toISOString(),
-        }
+        },
       },
     })
   )
