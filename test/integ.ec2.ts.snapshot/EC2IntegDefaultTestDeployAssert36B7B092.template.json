@@ -26,7 +26,7 @@
      }
     },
     "flattenResponse": "false",
-    "salt": "1694012790544"
+    "salt": "1694276119451"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -178,7 +178,7 @@
      "Filters": "[{\"Name\":\"instance-state-name\",\"Values\":[\"pending\",\"running\",\"shutting-down\",\"terminated\",\"stopping\",\"stopped\"]}]"
     },
     "flattenResponse": "false",
-    "salt": "1694012790544"
+    "salt": "1694276119451"
    },
    "DependsOn": [
     "AwsApiCallEC2stopInstancesae3190c9cc698cf969f9acf9d133e035"
@@ -425,7 +425,7 @@
     }
    }
   },
-  "AwsApiCallDynamoDBputItemefd261a4428d09668b91214c4ea140f4": {
+  "AwsApiCallDynamoDBputItemff310099c11c3b1d47f94c2d167ede56": {
    "Type": "Custom::DeployAssert@SdkCallDynamoDBputItem",
    "Properties": {
     "ServiceToken": {
@@ -449,10 +449,10 @@
        ]
       ]
      },
-     "Item": "{\"PK\":{\"S\":\"2023-09#c8f5ec86153761e35310d3376adad0942b36297052\"},\"accruedExpenses\":{\"N\":\"10000000001\"},\"updatedAt\":{\"S\":\"2023-09-06T15:06:30.545Z\"}}"
+     "Item": "{\"PK\":{\"S\":\"2023-09#c8f5ec86153761e35310d3376adad0942b36297052\"},\"accruedExpenses\":{\"N\":\"10000000001\"},\"updatedAt\":{\"S\":\"2023-09-09T16:15:19.452Z\"}}"
     },
     "flattenResponse": "false",
-    "salt": "1694012790545"
+    "salt": "1694276119452"
    },
    "DependsOn": [
     "AwsApiCallEC2describeInstanceStatusb32986d428de6b3fc2ed9cd3ca844424",
@@ -490,10 +490,10 @@
      }
     },
     "flattenResponse": "false",
-    "salt": "1694012790545"
+    "salt": "1694276119452"
    },
    "DependsOn": [
-    "AwsApiCallDynamoDBputItemefd261a4428d09668b91214c4ea140f4"
+    "AwsApiCallDynamoDBputItemff310099c11c3b1d47f94c2d167ede56"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -529,7 +529,7 @@
      "IncludeAllInstances": "true"
     },
     "flattenResponse": "false",
-    "salt": "1694012790545"
+    "salt": "1694276119452"
    },
    "DependsOn": [
     "AwsApiCallEC2startInstancesae3190c9cc698cf969f9acf9d133e035"

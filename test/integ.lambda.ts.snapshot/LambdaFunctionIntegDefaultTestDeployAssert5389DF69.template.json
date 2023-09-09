@@ -1,6 +1,6 @@
 {
  "Resources": {
-  "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad": {
+  "AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8": {
    "Type": "Custom::DeployAssert@SdkCallDynamoDBputItem",
    "Properties": {
     "ServiceToken": {
@@ -24,10 +24,10 @@
        ]
       ]
      },
-     "Item": "{\"PK\":{\"S\":\"2023-09#c8fd0c43e6b25f63e981a0d66726245598c8974b2d\"},\"accruedExpenses\":{\"N\":\"9999999999\"},\"updatedAt\":{\"S\":\"2023-09-06T14:55:16.400Z\"}}"
+     "Item": "{\"PK\":{\"S\":\"2023-09#c8fd0c43e6b25f63e981a0d66726245598c8974b2d\"},\"accruedExpenses\":{\"N\":\"9999999999\"},\"updatedAt\":{\"S\":\"2023-09-09T16:14:27.593Z\"}}"
     },
     "flattenResponse": "false",
-    "salt": "1694012116405"
+    "salt": "1694276067597"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -178,10 +178,10 @@
      "InvocationType": "\"Event\""
     },
     "flattenResponse": "false",
-    "salt": "1694012116405"
+    "salt": "1694276067597"
    },
    "DependsOn": [
-    "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad"
+    "AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -201,7 +201,7 @@
     }
    },
    "DependsOn": [
-    "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad"
+    "AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8"
    ]
   },
   "AwsApiCallLambdagetFunction0d0818f03506c4cac7eeba2359f728ae": {
@@ -234,7 +234,7 @@
      }
     },
     "flattenResponse": "false",
-    "salt": "1694012116406"
+    "salt": "1694276067597"
    },
    "DependsOn": [
     "LambdaInvokec729a187849f320633c83e53d03dbaba",

@@ -7,7 +7,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "layer:build": "pkg -t linux-x64 -o lib/layerX86/extensions/revant lib/revant-extension/revant.js && pkg -t linux-arm64 -o lib/layerARM/extensions/revant lib/revant-extension/revant.js",
-    "integ": "integ-runner --update-on-failed"
+    "test:integ": "integ-runner"
   },
   "devDependencies": {
     "@aws-cdk/integ-runner": "^2.92.0-alpha.0",

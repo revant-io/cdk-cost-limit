@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/71ab07c895f3cfdc12b53f5c3a715469217358f4695ecc9cbd88b6a000ad54c3.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b12af3ae9bd2c0dcd1545ce698fb1306a8b4c744cf0cc97fb48a32005cbdb3fa.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -33,24 +33,6 @@
         "LambdaStackUnderTest.assets"
       ],
       "metadata": {
-        "/LambdaStackUnderTest/Handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "HandlerServiceRoleFCDC14AE"
-          }
-        ],
-        "/LambdaStackUnderTest/Handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "HandlerServiceRoleDefaultPolicyCBD0CC91"
-          }
-        ],
-        "/LambdaStackUnderTest/Handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Handler886CB40B"
-          }
-        ],
         "/LambdaStackUnderTest/RevantCore/CostTable/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -99,6 +81,24 @@
             "data": "RevantCoreLambdaCommonSelfDisablePolicy90C2DBAB"
           }
         ],
+        "/LambdaStackUnderTest/Handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HandlerServiceRoleFCDC14AE"
+          }
+        ],
+        "/LambdaStackUnderTest/Handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HandlerServiceRoleDefaultPolicyCBD0CC91"
+          }
+        ],
+        "/LambdaStackUnderTest/Handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Handler886CB40B"
+          }
+        ],
         "/LambdaStackUnderTest/Exports/Output{\"Ref\":\"RevantCoreCostTable7B7089AB\"}": [
           {
             "type": "aws:cdk:logicalId",
@@ -142,7 +142,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b2db71085a6fcd811d0ed5fba68631548413a59785de8e2e572c65be19ba3a35.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/10373f34ab81bae314c472015797223f3aa6b06afdd03baf190c9e6d7fc0995e.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -159,10 +159,10 @@
         "LambdaFunctionIntegDefaultTestDeployAssert5389DF69.assets"
       ],
       "metadata": {
-        "/LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/Default/Default": [
+        "/LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8/Default/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad"
+            "data": "AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8"
           }
         ],
         "/LambdaFunctionInteg/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [

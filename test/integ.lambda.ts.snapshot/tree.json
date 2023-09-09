@@ -8,163 +8,6 @@
         "id": "LambdaStackUnderTest",
         "path": "LambdaStackUnderTest",
         "children": {
-          "Handler": {
-            "id": "Handler",
-            "path": "LambdaStackUnderTest/Handler",
-            "children": {
-              "ServiceRole": {
-                "id": "ServiceRole",
-                "path": "LambdaStackUnderTest/Handler/ServiceRole",
-                "children": {
-                  "ImportServiceRole": {
-                    "id": "ImportServiceRole",
-                    "path": "LambdaStackUnderTest/Handler/ServiceRole/ImportServiceRole",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.92.0"
-                    }
-                  },
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "LambdaStackUnderTest/Handler/ServiceRole/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
-                      "aws:cdk:cloudformation:props": {
-                        "assumeRolePolicyDocument": {
-                          "Statement": [
-                            {
-                              "Action": "sts:AssumeRole",
-                              "Effect": "Allow",
-                              "Principal": {
-                                "Service": "lambda.amazonaws.com"
-                              }
-                            }
-                          ],
-                          "Version": "2012-10-17"
-                        },
-                        "managedPolicyArns": [
-                          {
-                            "Fn::Join": [
-                              "",
-                              [
-                                "arn:",
-                                {
-                                  "Ref": "AWS::Partition"
-                                },
-                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-                              ]
-                            ]
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.92.0"
-                    }
-                  },
-                  "DefaultPolicy": {
-                    "id": "DefaultPolicy",
-                    "path": "LambdaStackUnderTest/Handler/ServiceRole/DefaultPolicy",
-                    "children": {
-                      "Resource": {
-                        "id": "Resource",
-                        "path": "LambdaStackUnderTest/Handler/ServiceRole/DefaultPolicy/Resource",
-                        "attributes": {
-                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
-                          "aws:cdk:cloudformation:props": {
-                            "policyDocument": {
-                              "Statement": [
-                                {
-                                  "Action": "dynamodb:UpdateItem",
-                                  "Effect": "Allow",
-                                  "Resource": [
-                                    {
-                                      "Fn::GetAtt": [
-                                        "RevantCoreCostTable7B7089AB",
-                                        "Arn"
-                                      ]
-                                    },
-                                    {
-                                      "Ref": "AWS::NoValue"
-                                    }
-                                  ]
-                                }
-                              ],
-                              "Version": "2012-10-17"
-                            },
-                            "policyName": "HandlerServiceRoleDefaultPolicyCBD0CC91",
-                            "roles": [
-                              {
-                                "Ref": "HandlerServiceRoleFCDC14AE"
-                              }
-                            ]
-                          }
-                        },
-                        "constructInfo": {
-                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.92.0"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_iam.Policy",
-                      "version": "2.92.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.92.0"
-                }
-              },
-              "Resource": {
-                "id": "Resource",
-                "path": "LambdaStackUnderTest/Handler/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
-                  "aws:cdk:cloudformation:props": {
-                    "architectures": [
-                      "x86_64"
-                    ],
-                    "code": {
-                      "zipFile": "exports.handler = (event, context, callback) => { setTimeout(() => callback(\"Throwing an error to have multiple execution triggered\"), 1000) }"
-                    },
-                    "environment": {
-                      "variables": {
-                        "REVANT_COST_LIMIT_c8fd0c43e6b25f63e981a0d66726245598c8974b2d": "10000000000",
-                        "REVANT_COST_TABLE_NAME": {
-                          "Ref": "RevantCoreCostTable7B7089AB"
-                        }
-                      }
-                    },
-                    "handler": "index.handler",
-                    "layers": [
-                      {
-                        "Ref": "RevantCoreLambdaCommonX86ExtensionLayer51DEEBAB"
-                      }
-                    ],
-                    "memorySize": 1024,
-                    "role": {
-                      "Fn::GetAtt": [
-                        "HandlerServiceRoleFCDC14AE",
-                        "Arn"
-                      ]
-                    },
-                    "runtime": "nodejs18.x"
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                  "version": "2.92.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_lambda.Function",
-              "version": "2.92.0"
-            }
-          },
           "RevantCore": {
             "id": "RevantCore",
             "path": "LambdaStackUnderTest/RevantCore",
@@ -503,7 +346,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "aa857b65ff9af94cba4cd5de2a3385041caa030c88771bde130d43a6764cad15.zip"
+                              "s3Key": "11771e96b4ed91b01afe292e4170f9b7ae728c60fcc287403ec038d27fe0996b.zip"
                             }
                           }
                         },
@@ -561,7 +404,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "43e511947f735164e1650244c3515cdf82b6c3d0ccdcf0dc74e372d0f3f9ee65.zip"
+                              "s3Key": "d23ebbecb01bc67d16a1d464d0dae7fcf618658e130ee892799fa43db8bac12d.zip"
                             }
                           }
                         },
@@ -625,6 +468,163 @@
             "constructInfo": {
               "fqn": "constructs.Construct",
               "version": "10.2.69"
+            }
+          },
+          "Handler": {
+            "id": "Handler",
+            "path": "LambdaStackUnderTest/Handler",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "LambdaStackUnderTest/Handler/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "LambdaStackUnderTest/Handler/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.92.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "LambdaStackUnderTest/Handler/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.92.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "LambdaStackUnderTest/Handler/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "LambdaStackUnderTest/Handler/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "dynamodb:UpdateItem",
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "RevantCoreCostTable7B7089AB",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "HandlerServiceRoleDefaultPolicyCBD0CC91",
+                            "roles": [
+                              {
+                                "Ref": "HandlerServiceRoleFCDC14AE"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.92.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.92.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.92.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "LambdaStackUnderTest/Handler/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "architectures": [
+                      "x86_64"
+                    ],
+                    "code": {
+                      "zipFile": "exports.handler = (event, context, callback) => { setTimeout(() => callback(\"Throwing an error to have multiple execution triggered\"), 1000) }"
+                    },
+                    "environment": {
+                      "variables": {
+                        "REVANT_COST_LIMIT_c8fd0c43e6b25f63e981a0d66726245598c8974b2d": "10000000000",
+                        "REVANT_COST_TABLE_NAME": {
+                          "Ref": "RevantCoreCostTable7B7089AB"
+                        }
+                      }
+                    },
+                    "handler": "index.handler",
+                    "layers": [
+                      {
+                        "Ref": "RevantCoreLambdaCommonX86ExtensionLayer51DEEBAB"
+                      }
+                    ],
+                    "memorySize": 1024,
+                    "role": {
+                      "Fn::GetAtt": [
+                        "HandlerServiceRoleFCDC14AE",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "nodejs18.x"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.92.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.92.0"
             }
           },
           "Exports": {
@@ -695,17 +695,17 @@
                 "id": "DeployAssert",
                 "path": "LambdaFunctionInteg/DefaultTest/DeployAssert",
                 "children": {
-                  "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad": {
-                    "id": "AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad",
-                    "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad",
+                  "AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8": {
+                    "id": "AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8",
+                    "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8",
                     "children": {
                       "SdkProvider": {
                         "id": "SdkProvider",
-                        "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/SdkProvider",
+                        "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8/SdkProvider",
                         "children": {
                           "AssertionsProvider": {
                             "id": "AssertionsProvider",
-                            "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/SdkProvider/AssertionsProvider",
+                            "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
                               "version": "10.2.69"
@@ -719,11 +719,11 @@
                       },
                       "Default": {
                         "id": "Default",
-                        "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/Default",
+                        "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8/Default",
                         "children": {
                           "Default": {
                             "id": "Default",
-                            "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItemd3e211857383f739658d9d862bf4bdad/Default/Default",
+                            "path": "LambdaFunctionInteg/DefaultTest/DeployAssert/AwsApiCallDynamoDBputItembf8809760cf835aaec91474de1495bb8/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
                               "version": "2.92.0"
