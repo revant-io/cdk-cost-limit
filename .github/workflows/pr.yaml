@@ -1,0 +1,26 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: lts/hydrogen
+                  registry-url: https://registry.npmjs.org
+            - uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+            # Store the name of the release
+            # See https://stackoverflow.com/questions/58177786/get-the-current-pushed-tag-in-github-actions
+            - run: npm i
+            - run: npm run build
+            - run: npm run layer:build
+            - run: npm run test:integ
