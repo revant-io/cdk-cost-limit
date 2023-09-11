@@ -36,13 +36,11 @@ Aspects.of(stack).add(new CostLimit({ budget: 100 }));
 
 ## How it works?
 
-This library provision additional resources, splitted in 2 categories:
-
-- common resources (like a DynamoDB table to store current spending amounts) that are used by all `CostLimit` Aspect usages
-- dedicated resources, depending on the type of resource protected by a budget limit.
+There are 3 levels of resources provisionned by this library: common resources, typology-specific resources and construct-specific resources. They all ensure supported constructs remain within budgets. The scope of responsability of each of those resources are detailed in the [design principles](./design-principles.md).
 
 ## Per-Service Level-2 Constructs
 
 This collection of CDK constructs covers multiple AWS services and resource types.
 
-[AWS Lambda](./lambda.md)
+- [AWS Lambda](./lambda.md)
+- [Amazon EC2](./ec2.md)

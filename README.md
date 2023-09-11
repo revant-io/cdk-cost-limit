@@ -117,4 +117,8 @@ While `CostLimit` aspect can be applied on any node type, budget capabilities ar
 
   - **⚒️ Manually** - You might want to increase budget and keep on using disabled resources in the current month. In order to do so, you need to follow [each service documentation](./docs/constructs.md#per-service-level-2-constructs) procedure to identify and manually re-enable affected resources
 
+### Design principles
+
+See the [design principles](./docs/design-principles.md) section to learn more about the architecture of the library.
+
 [^1]: 📖 Have a look at those [AWS billing horror stories aggregated by Victor Grenu](https://unusd.cloud/blog/post-5/)!

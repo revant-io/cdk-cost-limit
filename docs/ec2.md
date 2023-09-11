@@ -5,7 +5,9 @@
 
 ## Usage
 
-You can simply replace your `Instance` native CDK import statement by this package exported `Instance` construct.
+Preferred implementation leverages [`CostLimit` aspect](./constructs.md#costlimit-aspect).
+
+Alternatively, you can simply replace your `Instance` native CDK import statement by this package exported `Instance` construct.
 
 ```diff
 - import { Instance } from "@aws-cdk-lib/aws-ec2";
@@ -37,7 +39,14 @@ By default, if budget is not specified, an unlimited budget (Instance normal beh
 
 ## How it works
 
-Todo
+![EC2 architecture](../images/ec2.png)
+
+### Disabling strategy
+
+EC2 instances are disabled using the [StopInstances command](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_StopInstances.html).
+### What is deployed?
+
+EC2 service nativelly broadcast status update event on AWS account default EventBridge Bus. 2 EventBridge Rules are provisionned to listen to instance-specific starting and stopping events. Those rules targets a generic lambda function in charge of fetching up-to-date catalog price for the instance, updating incurred expenses rate, and eventually stop the instance if budget is already exceeded. Budget informations (address and amout) are accessible by the lambda through parameters specified directly on the rule.
 
 ## Manually restore
 
