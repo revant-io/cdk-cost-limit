@@ -2,8 +2,15 @@ import { DynamoDBStreamHandler } from "aws-lambda";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 import { AttributeValue, DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  SchedulerClient,
+  CreateScheduleCommand,
+} from "@aws-sdk/client-scheduler";
 
 const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
+const ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX = "REVANT_COST_LIMIT";
+const ENV_VARIABLE_REVANT_SCHEDULE_ROLE_ARN = "REVANT_SCHEDULE_ROLE_ARN";
+const ENV_VARIABLE_REVANT_SCHEDULE_FUNCTION_ARN = "REVANT_SCHEDULE_FUNCTION_ARN";
 
 const DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME = "accruedExpenses";
 const DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME = "incurredExpensesRate";
@@ -23,6 +30,7 @@ type BudgetUpdateOperation = {
 
 const dynamoDBClient = new DynamoDBClient({});
 const dynamoDBDocumentClient = DynamoDBDocumentClient.from(dynamoDBClient);
+const schedulerClient = new SchedulerClient({});
 
 const isBudgetUpdateOperation = ({
   oldBudget,
@@ -41,6 +49,25 @@ const calculateNewAccruedExpenses = ({
       1000
   ) * oldBudget[DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME];
 
+const calculateBudgetReachedEstimatedDate = ({
+  accruedExpenses,
+  incurredExpensesRate,
+  updatedAt,
+  budget,
+}: {
+  accruedExpenses: number;
+  incurredExpensesRate: number;
+  updatedAt: Date;
+  budget: number;
+}): Date => {
+  const budgetReachedDate = new Date(updatedAt);
+  budgetReachedDate.setSeconds(
+    budgetReachedDate.getSeconds() +
+      (budget - accruedExpenses) / incurredExpensesRate
+  );
+  return budgetReachedDate;
+};
+
 export const handler: DynamoDBStreamHandler = async ({ Records }) => {
   console.log(`${Records.length} records received`);
   const budgetUpdatesOperations = Records.map((record) => ({
@@ -56,12 +83,21 @@ export const handler: DynamoDBStreamHandler = async ({ Records }) => {
     `${budgetUpdatesOperations.length} budget update operations received`
   );
 
+  const budgets = Object.fromEntries(
+    Object.entries(process.env)
+      .filter(([key]) => key.startsWith(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX))
+      .map(([key, value]) => [
+        key.slice(ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX.length + 1),
+        Number(value),
+      ])
+  );
+
   const failedUpdateIds: { itemIdentifier: string }[] = [];
   await Promise.all(
     budgetUpdatesOperations.map(
       async ({ itemIdentifier, oldBudget, newBudget }) => {
         try {
-          await dynamoDBDocumentClient.send(
+          const { Attributes } = await dynamoDBDocumentClient.send(
             new UpdateCommand({
               TableName: process.env[ENV_VARIABLE_REVANT_COST_TABLE_NAME],
               Key: { PK: oldBudget.PK },
@@ -75,8 +111,39 @@ export const handler: DynamoDBStreamHandler = async ({ Records }) => {
                   newBudget,
                 }),
               },
+              ReturnValues: "ALL_NEW",
             })
           );
+          if (Attributes === undefined) {
+            console.error("Did not get any updated budget from DynamDB");
+            return;
+          }
+
+          const address = oldBudget.PK.split("#")[1];
+          const budget = budgets[address];
+          const budgetReachedDate = calculateBudgetReachedEstimatedDate({
+            accruedExpenses: Attributes[
+              DYNAMODB_ACCRUED_EXPENSES_ATTRIBUTE_NAME
+            ] as number,
+            incurredExpensesRate: Attributes[
+              DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME
+            ] as number,
+            updatedAt: new Date(
+              Attributes[DYNAMODB_LAST_UPDATE_ATTRIBUTE_NAME]
+            ),
+            budget,
+          });
+          await schedulerClient.send(new CreateScheduleCommand({
+            Name: address,
+            ScheduleExpression: `at(${budgetReachedDate.toISOString().split('.')[0]})`,
+            Target: {
+              RoleArn: process.env[ENV_VARIABLE_REVANT_SCHEDULE_ROLE_ARN],
+              Arn: process.env[ENV_VARIABLE_REVANT_SCHEDULE_FUNCTION_ARN],
+            },
+            FlexibleTimeWindow: {
+              Mode: "OFF"
+            }
+          }));
         } catch (error) {
           failedUpdateIds.push({ itemIdentifier });
         }

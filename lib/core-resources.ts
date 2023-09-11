@@ -16,14 +16,24 @@ import {
   StartingPosition,
 } from "aws-cdk-lib/aws-lambda";
 import path from "path";
+import { Revantios } from "./revantios";
+import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 
 const ENV_VARIABLE_REVANT_COST_TABLE_NAME = "REVANT_COST_TABLE_NAME";
+const ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX = "REVANT_COST_LIMIT";
+const ENV_VARIABLE_REVANT_SCHEDULE_ROLE_ARN = "REVANT_SCHEDULE_ROLE_ARN";
+const ENV_VARIABLE_REVANT_SCHEDULE_FUNCTION_ARN =
+  "REVANT_SCHEDULE_FUNCTION_ARN";
 const DYNAMODB_INCURRED_EXPENSES_RATE_ATTRIBUTE_NAME = "incurredExpensesRate";
 
 export class CoreRessources extends Construct {
   public dynamoDBTable: Table;
+
   private _lambdaCommonResources?: LambdaCommonResources;
   private _ec2CommonResources?: EC2CommonResources;
+
+  private updateAccruedExpensesWithCurrentIncurredExpensesRate: NodejsFunction;
+
   static instance: CoreRessources;
 
   private constructor(scope: Construct) {
@@ -37,7 +47,7 @@ export class CoreRessources extends Construct {
       billingMode: BillingMode.PAY_PER_REQUEST,
       stream: StreamViewType.NEW_AND_OLD_IMAGES,
     });
-    const updateAccruedExpensesWithCurrentIncurredExpensesRate =
+    this.updateAccruedExpensesWithCurrentIncurredExpensesRate =
       new NodejsFunction(
         this,
         "UpdateAccruedExpensesWithCurrentIncurredExpensesRateFunction",
@@ -49,14 +59,14 @@ export class CoreRessources extends Construct {
         }
       );
     this.dynamoDBTable.grant(
-      updateAccruedExpensesWithCurrentIncurredExpensesRate,
+      this.updateAccruedExpensesWithCurrentIncurredExpensesRate,
       "dynamodb:UpdateItem"
     );
-    updateAccruedExpensesWithCurrentIncurredExpensesRate.addEnvironment(
+    this.updateAccruedExpensesWithCurrentIncurredExpensesRate.addEnvironment(
       ENV_VARIABLE_REVANT_COST_TABLE_NAME,
       this.dynamoDBTable.tableName
     );
-    updateAccruedExpensesWithCurrentIncurredExpensesRate.addEventSource(
+    this.updateAccruedExpensesWithCurrentIncurredExpensesRate.addEventSource(
       new DynamoEventSource(this.dynamoDBTable, {
         startingPosition: StartingPosition.LATEST,
         reportBatchItemFailures: true,
@@ -74,7 +84,28 @@ export class CoreRessources extends Construct {
         ],
       })
     );
+
+    const scheduleRole = new Role(this, "ScheduleRole", {});
+    scheduleRole.grantAssumeRole(
+      new ServicePrincipal("scheduler.amazonaws.com")
+    );
+
+    this.updateAccruedExpensesWithCurrentIncurredExpensesRate.addEnvironment(
+      ENV_VARIABLE_REVANT_SCHEDULE_ROLE_ARN,
+      scheduleRole.roleArn
+    );
+    this.updateAccruedExpensesWithCurrentIncurredExpensesRate.addEnvironment(
+      ENV_VARIABLE_REVANT_SCHEDULE_FUNCTION_ARN,
+      "test-arn"
+    );
   }
+
+  public registerBudget = (address: string, budget: number) => {
+    this.updateAccruedExpensesWithCurrentIncurredExpensesRate.addEnvironment(
+      [ENV_VARIABLE_REVANT_COST_LIMIT_PREFIX, address].join("_"),
+      Revantios.fromCents(budget).toString()
+    );
+  };
 
   public get lambdaCommonResources() {
     if (this._lambdaCommonResources === undefined) {

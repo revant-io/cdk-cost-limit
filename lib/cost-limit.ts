@@ -2,6 +2,7 @@ import { Aspects, IAspect } from "aws-cdk-lib";
 import { IConstruct } from "constructs";
 import { Function } from "./services/lambda";
 import { Instance } from "./services/ec2";
+import { CoreRessources } from "./core-resources";
 
 export type CostLimitProps = {
   /**
@@ -28,6 +29,7 @@ export class CostLimit implements IAspect {
     ) as this | undefined;
     if (nodeWithCostLimitAspect !== undefined) {
       this.address = node.node.addr;
+      CoreRessources.getInstance(node).registerBudget(this.address, this.budget);
     }
 
     CostLimitedConstructs.map((CostLimitedConstruct) => {
