@@ -1,7 +1,7 @@
 <!-- HEADER -->
 <br />
 <div align="center">
-  <a href="https://github.com/revant-io">
+  <a href="https://revant.io">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -11,11 +11,11 @@
     A Collection of CDK Constructs to Deploy Cost-Aware Self-Limiting Resources
     <br />
     <br />
-    <a href="">Website</a>
+    <a href="https://revant.io">Website</a>
     ·
     <a href="">Docs</a>
     ·
-    <a href="">Request Feature</a>
+    <a href="https://github.com/revant-io/cdk-cost-limit/issues/new">Request Feature</a>
   </p>
 </div>
 
