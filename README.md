@@ -122,3 +122,9 @@ While `CostLimit` aspect can be applied on any node type, budget capabilities ar
 See the [design principles](./docs/design-principles.md) section to learn more about the architecture of the library.
 
 [^1]: 📖 Have a look at those [AWS billing horror stories aggregated by Victor Grenu](https://unusd.cloud/blog/post-5/)!
+
+### Content
+
+Want to have a look at some content related to cdk-cost-limit? Help yourself!
+
+- 📺 [Unboxing the Cost Limit for AWS project with Frederic Barthelet from Revant.io @ CDK Live - YouTube](https://www.youtube.com/watch?v=YV94RGhBfOM)
